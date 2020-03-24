@@ -1,6 +1,7 @@
 package com.jijian.ppt.controller;
 
 import com.jijian.ppt.POJO.CoverPage;
+import com.jijian.ppt.annotation.UserLogin;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ public class CoverPageController {
      * @return
      */
     @RequestMapping("/modify")
+    @UserLogin
     public UniversalResponseBody modifyCoverPage(Integer userId, CoverPage coverPage,Integer fileId){
         return null;
     }
