@@ -22,7 +22,5 @@ JiJan-ppt.iml
 Would skip repository minimalist/
 mvnw
 mvnw.cmd
-pom.xml
-src/
 target/
-!/.idea/
+

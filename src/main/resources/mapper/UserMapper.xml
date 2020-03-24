@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jijian.ppt.mapper.UserMapper">
+
+    <resultMap id="UserByOpenId" type="com.jijian.ppt.POJO.User">
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="openid" property="openid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+    <insert id="InsertUser"  useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO  usermessage(openid) VALUES (#{openid,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="findUserByUserId" resultType="com.jijian.ppt.POJO.User">
+        SELECT user_id,openid
+        FROM usermessage
+        WHERE user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+<!--   此处如使用自动映射会出现BUG，我也不知道为啥查出来返回得userid是null-->
+    <select id="findUserByOpenId" resultMap="UserByOpenId">
+        SELECT user_id,openid
+        FROM usermessage
+        WHERE openid = #{openid,jdbcType=VARCHAR}
+    </select>
+</mapper>
