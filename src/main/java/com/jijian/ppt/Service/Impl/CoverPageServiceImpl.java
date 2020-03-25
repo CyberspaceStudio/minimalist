@@ -44,33 +44,7 @@ public class CoverPageServiceImpl implements CoverPageService {
     @Override
     public UniversalResponseBody makeCoverPage(Integer userId, CoverPage coverPage, Integer templateId) throws IOException {
 
-        /*
-        //生成一个新的ppt文件
-        XMLSlideShow ppt = new XMLSlideShow();
-        //创建幻灯片
-        XSLFSlide slide = ppt.createSlide();
-        XSLFTextBox textBox = slide.createTextBox();
-        textBox.setAnchor(new Rectangle2D.Double(10,10, 0, 0));
-        textBox.addNewTextParagraph().addNewTextRun().setText("创建幻灯片");
-        */
 
-        XMLSlideShow ppt = new XMLSlideShow();// 设置幻灯片大小
-        ppt.setPageSize(new Dimension(760, 600));
-        /*SlideMaster master = ppt.getSlidesMasters()[0]; // 设置母板背景,支持多种图片格式
-        int picIndex = 0;
-        try {
-            picIndex = ppt.addPicture(new File("background.png"), Picture.PNG);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Picture background = new Picture(picIndex);// 设置图片位置
-        background.setAnchor(new java.awt.Rectangle(0, 0,
-                ppt.getPageSize().width, ppt.getPageSize().height));
-        master.addShape(background);*/
-
-
-        //文件输出路径,此步骤为最后一步
-        ppt.write(new FileOutputStream("/Users/mike/ppt1.pptx"));
-        return null;
+       return null;
     }
 }
