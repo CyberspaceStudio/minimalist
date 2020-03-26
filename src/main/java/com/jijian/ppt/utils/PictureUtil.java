@@ -16,6 +16,7 @@ import java.util.List;
  */
 @Component
 public class PictureUtil {
+
     public void insertText(Integer number,String titleContent,String textContent) throws IOException {
         InputStream is=new FileInputStream(new File("D:\\ppt\\test.pptx"));
         XMLSlideShow ppt=new XMLSlideShow(is);
