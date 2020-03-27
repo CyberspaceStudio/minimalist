@@ -1,11 +1,13 @@
 package com.jijian.ppt;
 
+import com.jijian.ppt.utils.Enum.FileCategoryEnum;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
 import com.jijian.ppt.utils.pptUtil.PPTtest;
 import com.power.common.util.DateTimeUtil;
 import com.power.doc.builder.HtmlApiDocBuilder;
 import com.power.doc.constants.DocGlobalConstants;
 import com.power.doc.model.ApiConfig;
+import com.power.doc.model.ApiDataDictionary;
 import com.power.doc.model.ApiErrorCodeDictionary;
 import com.power.doc.model.ApiReqHeader;
 import org.junit.jupiter.api.Test;
@@ -22,10 +24,12 @@ class PptApplicationTests {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         PPTtest ppTtest = new PPTtest();
         ppTtest.test4();
-        System.out.println("执行完成！！！！！！！！！");
+      System.out.println("执行完成！！！！！！！！！");
+
+
     }
 
 
@@ -61,7 +65,11 @@ class PptApplicationTests {
                         .setCodeField("code") //错误码值字段名
                         .setDescField("msg")//错误码描述
         );
-
+        config.setDataDictionaries(
+                ApiDataDictionary.dict().setTitle("文件类别Id").setEnumClass(FileCategoryEnum.class)
+                        .setCodeField("fileCategoryId") //字典码值字段名
+                        .setDescField("fileCategoryDetail")
+        );
 
         long start = System.currentTimeMillis();
         //生成HTML5文件

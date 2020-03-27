@@ -1,10 +1,17 @@
 package com.jijian.ppt.controller;
 
 import com.jijian.ppt.POJO.CoverPage;
+import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.Service.CoverPageService;
 import com.jijian.ppt.annotation.UserLogin;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.io.IOException;
 
 /**
  * 封面页
@@ -16,6 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ppt/cover")
 public class CoverPageController {
 
+    @Resource
+    @Qualifier("coverPageServiceImpl")
+    private CoverPageService coverPageService;
+
+
     /**
      * 修改封面页
      * @param userId 用户id
@@ -23,7 +35,7 @@ public class CoverPageController {
      * @param fileId 模板id
      * @return
      */
-    @RequestMapping("/modify")
+    @PostMapping("/modify")
     @UserLogin
     public UniversalResponseBody modifyCoverPage(Integer userId, CoverPage coverPage,Integer fileId){
         return null;
@@ -36,8 +48,8 @@ public class CoverPageController {
      * @param templateId
      * @return
      */
-    @RequestMapping("/make")
-    public UniversalResponseBody makeCoverPage(Integer userId,CoverPage coverPage,Integer templateId){
-        return null;
+    @PostMapping("/make")
+    public UniversalResponseBody<FileDetail> makeCoverPage(Integer userId, CoverPage coverPage, Integer templateId) throws IOException {
+        return coverPageService.makeCoverPage(userId, coverPage, templateId);
     }
 }

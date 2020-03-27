@@ -1,8 +1,8 @@
 package com.jijian.ppt.Service;
 
 import com.jijian.ppt.POJO.CoverPage;
+import com.jijian.ppt.POJO.FileDetail;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
-
 import java.io.IOException;
 
 /**
@@ -19,14 +19,14 @@ public interface CoverPageService {
      * @param fileId
      * @return
      */
-    UniversalResponseBody modifyCoverPage(Integer userId, CoverPage coverPage,Integer fileId);
+    UniversalResponseBody<FileDetail> modifyCoverPage(Integer userId, CoverPage coverPage,Integer fileId);
 
     /**
-     *
+     * 制作封面页
      * @param userId
      * @param coverPage
      * @param templateId
      * @return
      */
-    UniversalResponseBody makeCoverPage(Integer userId, CoverPage coverPage,Integer templateId) throws IOException;
+    UniversalResponseBody<FileDetail> makeCoverPage(Integer userId, CoverPage coverPage, Integer templateId) throws IOException;
 }
