@@ -11,6 +11,16 @@ wx:
 spring:
   profiles:
     active: dev
+  servlet:
+    multipart:
+      #支持文件上传
+      enabled: true
+      #写入磁盘的阈（yu）值，默认为0
+      file-size-threshold: 0
+      max-file-size: 5MB
+
+
+
 ---
 spring:
   profiles: dev
