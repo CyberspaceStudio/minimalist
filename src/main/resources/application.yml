@@ -8,6 +8,12 @@ wx:
   templateId:
   url: https://api.weixin.qq.com/sns/jscode2session?appid=${wx.appid}&secret=${wx.secret}&grant_type=authorization_code&js_code=
 
+file:
+  #模板文件所在文件夹
+  templateDirectory: C:\Users\24605\Desktop\minimalist\src\main\resources\static\pptTemplate\
+  # 用户文件所在文件夹
+  userFilePath:
+
 spring:
   profiles:
     active: dev

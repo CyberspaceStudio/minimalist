@@ -29,6 +29,11 @@ public class FileDetail {
     private Integer fileCategoryId;
 
     /**
+     * 所属模板文件Id
+     */
+    private Integer templateId;
+
+    /**
      * 文件存储路径
      */
     private String filePath;
