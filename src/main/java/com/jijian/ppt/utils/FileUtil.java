@@ -16,15 +16,17 @@ import java.util.UUID;
 @Component
 public class FileUtil {
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyMMdd\\");
-
     /**
-     * 服务器存储用户文件的文件夹
+     * Linux服务器存储用户文件的文件夹
      * 上线时请更换地址
+     * SimpleDateFormat sdf = new SimpleDateFormat("yyyMMdd/");
+     *
+     * @Value("${file.tempaltePath}")
      * private static final String FileDirectory = "/a-minimalist/file/";
      */
-
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyMMdd\\");
     private static final String FileDirectory = "C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\";
+
 
     /**
      * 生成文件路径
@@ -32,7 +34,6 @@ public class FileUtil {
      * @return
      */
     public void GenerateFilePath(FileDetail fileDetail){
-
         String ParentDirectory = FileDirectory+sdf.format(new Date());
         File folder = new File(ParentDirectory);
         if (!folder.isDirectory()) {

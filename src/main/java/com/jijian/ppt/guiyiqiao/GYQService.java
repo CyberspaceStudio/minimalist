@@ -58,10 +58,6 @@ public class GYQService {
             textRun.setFontSize(30.0);
             textRun.setFontColor(Color.BLACK);
         }
-
-        //生成 过渡页
-
-        //文件输出
         try(FileOutputStream fileOutputStream = new FileOutputStream(pptFilePath)) {
             ppt.write(fileOutputStream);
         }catch (IOException e){
