@@ -5,6 +5,7 @@ import com.jijian.ppt.POJO.FileDetail;
 import com.jijian.ppt.Service.CoverPageService;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
+import com.jijian.ppt.utils.Enum.PageCategoryEnum;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
 import com.jijian.ppt.utils.FileUtil;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.util.List;
 
 /**
  * @author 郭树耸
@@ -28,8 +30,6 @@ public class CoverPageServiceImpl implements CoverPageService {
     private FileDetailMapper fileDetailMapper;
     @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
-    @Resource
-    private FileUtil fileUtil;
 
 
     @Override
@@ -49,11 +49,18 @@ public class CoverPageServiceImpl implements CoverPageService {
     public UniversalResponseBody<FileDetail> makeCoverPage(Integer userId, CoverPage coverPage, Integer templateId) throws IOException {
         //获取模板ppt文件的路径
         String templateFilePath =templateFileDetailMapper.GetTemplateFilePath(templateId);
-        //XMLSlideShow ppt = new XMLSlideShow( new FileInputStream("C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\template.pptx") );
-
         XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
-        XSLFSlide  slide = ppt.getSlides().get(0);
-        for( XSLFShape shape : slide.getShapes() )
+        //获取模板的封面页
+        XSLFSlide slide = ppt.getSlides().get(PageCategoryEnum.COVER_PAGE.getPageCategoryId());
+        //新建一个用户文件
+        XMLSlideShow userFile = new XMLSlideShow();
+        //读取模板文件的排版
+        XSLFSlideLayout layout = slide.getSlideLayout();
+        //将排版应用到用户文件
+        XSLFSlide newSlide = userFile.createSlide(layout);
+        //导入
+        newSlide.importContent(slide);
+        for ( XSLFShape shape : newSlide.getShapes())
                 {
                     if ( shape instanceof XSLFTextShape)
                     {
@@ -74,17 +81,16 @@ public class CoverPageServiceImpl implements CoverPageService {
                 }
             FileDetail fileDetail = new FileDetail();
             //生成文件路径+文件名
-            fileUtil.GenerateFilePath(fileDetail);
+            FileUtil.GenerateFilePath(fileDetail);
             fileDetail.setUserId(userId);
             fileDetail.setTemplateId(templateId);
             //将文件信息插入数据库
             fileDetailMapper.insertFileDetail(fileDetail);
             //输出文件
-            FileOutputStream out = new FileOutputStream(fileDetail.getFilePath()) ;
-            //将文件信息返回给前端
-            ppt.write(out);
+            FileOutputStream out = new FileOutputStream(fileDetail.getFilePath());
+            userFile.write(out);
             out.close();
-            ppt.close();
+            userFile.close();
             return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
     }
 }

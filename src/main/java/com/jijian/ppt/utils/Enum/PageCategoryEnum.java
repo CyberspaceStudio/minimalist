@@ -6,9 +6,9 @@ package com.jijian.ppt.utils.Enum;
  * @version 1.0
  * @date 2020/3/28 13:16
  */
-public enum PageCategory {
+public enum PageCategoryEnum {
 
-    COVER_PAGE(0,"页面页"),
+    COVER_PAGE(0,"封面页"),
     CONTENTS_PAGE(1,"目录页"),
     TRANSITION_PAGE(2,"过渡页"),
     TEXT_PAGE(3,"正文页"),
@@ -27,7 +27,7 @@ public enum PageCategory {
      */
     private String PageCategoryDetail;
 
-    PageCategory(Integer pageCategoryId, String pageCategoryDetail) {
+    PageCategoryEnum(Integer pageCategoryId, String pageCategoryDetail) {
         PageCategoryId = pageCategoryId;
         PageCategoryDetail = pageCategoryDetail;
     }

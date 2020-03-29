@@ -7,23 +7,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 目录页
  * @author 郭树耸
  * @version 1.0
- * @date 2020/3/27 21:37
+ * @date 2020/3/28 21:55
  */
 @RestController
-@RequestMapping("/ppt/contents")
-public class ContentsPageController {
+@RequestMapping("/ppt/image")
+public class ImagePageController {
 
     /**
-     * 制作目录页
-     * @param fileId
-     * @param titles
+     * 制作图文页
+     * @param pictureUrls
+     * @param title
+     * @param paragraph
      * @return
      */
     @PostMapping("/make")
-    public UniversalResponseBody<FileDetail> makeContentsPage(Integer fileId,String[] titles){
+    public UniversalResponseBody<FileDetail> makeImagePage(String[] pictureUrls,String title,String paragraph){
         return null;
     }
 }

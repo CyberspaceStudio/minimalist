@@ -33,6 +33,14 @@ public class TemplateServiceImpl implements TemplateService {
     @Value("${file.templateDirectory}")
     private static String templateDirectory;
 
+    /**
+     * 上传模板文件
+     * @param uploadFile
+     * @param templateFileDetail
+     * @param req
+     * @return
+     * @throws IOException
+     */
     @Override
     public UniversalResponseBody<TemplateFileDetail> uploadTemplateFile(MultipartFile uploadFile,TemplateFileDetail templateFileDetail, HttpServletRequest req) throws IOException {
 
