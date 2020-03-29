@@ -23,4 +23,12 @@ public interface FileDetailMapper {
      * @return
      */
     String getPathByFileId(Integer fileId);
+
+
+    /**
+     * 根据Id获取文件详细信息
+     * @param fileId
+     * @return
+     */
+    FileDetail getDetailByFileId(Integer fileId);
 }

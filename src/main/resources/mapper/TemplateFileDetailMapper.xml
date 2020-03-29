@@ -21,7 +21,7 @@
         where template_id = #{templateId,jdbcType=VARCHAR}
     </select>
 
-    <select id="GetTemplateDetailByTag" resultType="com.jijian.ppt.POJO.TemplateFileDetail">
+    <select id="GetTemplateDetailByTag" resultMap="TemplateFileDetail">
         SELECT template_id,file_path,template_tag,template_name,coverImage_url
         FROM templatefiledetail
         WHERE  template_tag = #{templateTag,jdbcType=VARCHAR}

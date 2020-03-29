@@ -29,19 +29,6 @@ public class CoverPageController {
 
 
     /**
-     * 修改封面页
-     * @param userId 用户id
-     * @param coverPage
-     * @param fileId 模板id
-     * @return
-     */
-    @PostMapping("/modify")
-    @UserLogin
-    public UniversalResponseBody modifyCoverPage(Integer userId, CoverPage coverPage,Integer fileId){
-        return null;
-    }
-
-    /**
      * 制作封面页
      * @param userId
      * @param coverPage

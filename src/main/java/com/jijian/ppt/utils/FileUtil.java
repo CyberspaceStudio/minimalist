@@ -1,9 +1,15 @@
 package com.jijian.ppt.utils;
 
 import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.mapper.FileDetailMapper;
+import com.jijian.ppt.utils.Enum.PageCategoryEnum;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
+import javax.annotation.Resource;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -19,12 +25,11 @@ public class FileUtil {
     /**
      * Linux服务器存储用户文件的文件夹
      * 上线时请更换地址
-     * SimpleDateFormat sdf = new SimpleDateFormat("yyyMMdd/");
-     *
+     * private static SimpleDateFormat sdf = new SimpleDateFormat("yyyMMdd/");
      * @Value("${file.tempaltePath}")
      * private static final String FileDirectory = "/a-minimalist/file/";
      */
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyMMdd\\");
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyMMdd\\");
     private static final String FileDirectory = "C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\";
 
 
@@ -33,7 +38,7 @@ public class FileUtil {
      * @param fileDetail
      * @return
      */
-    public void GenerateFilePath(FileDetail fileDetail){
+    public static void GenerateFilePath(FileDetail fileDetail){
         String ParentDirectory = FileDirectory+sdf.format(new Date());
         File folder = new File(ParentDirectory);
         if (!folder.isDirectory()) {
@@ -43,4 +48,5 @@ public class FileUtil {
         String filePath =ParentDirectory+""+ UUID.randomUUID().toString()+".pptx";
         fileDetail.setFilePath(filePath);
     }
+
 }

@@ -24,11 +24,6 @@ public class FileDetail {
     private Integer userId;
 
     /**
-     * 文件类别id
-     */
-    private Integer fileCategoryId;
-
-    /**
      * 所属模板文件Id
      */
     private Integer templateId;
