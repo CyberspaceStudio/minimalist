@@ -1,22 +1,19 @@
 package com.jijian.ppt.Service.Impl;
 
 import com.jijian.ppt.POJO.CoverPage;
+import com.jijian.ppt.POJO.FileDetail;
 import com.jijian.ppt.Service.CoverPageService;
+import com.jijian.ppt.mapper.FileDetailMapper;
+import com.jijian.ppt.mapper.TemplateFileDetailMapper;
+import com.jijian.ppt.utils.Enum.PageCategoryEnum;
+import com.jijian.ppt.utils.Enum.ResponseResultEnum;
+import com.jijian.ppt.utils.FileUtil;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.common.usermodel.fonts.FontInfo;
-import org.apache.poi.extractor.POITextExtractor;
-import org.apache.poi.sl.usermodel.MasterSheet;
-import org.apache.poi.sl.usermodel.PictureData;
-import org.apache.poi.sl.usermodel.Slide;
-import org.apache.poi.sl.usermodel.SlideShow;
-import org.apache.poi.xslf.usermodel.XMLSlideShow;
-import org.apache.poi.xslf.usermodel.XSLFSlide;
-import org.apache.poi.xslf.usermodel.XSLFTextBox;
+import org.apache.poi.xslf.usermodel.*;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import javax.annotation.Resource;
 import java.io.*;
 import java.util.List;
 
@@ -28,6 +25,13 @@ import java.util.List;
 @Service
 @Slf4j
 public class CoverPageServiceImpl implements CoverPageService {
+
+    @Resource
+    private FileDetailMapper fileDetailMapper;
+    @Resource
+    private TemplateFileDetailMapper templateFileDetailMapper;
+
+
     @Override
     public UniversalResponseBody modifyCoverPage(Integer userId, CoverPage coverPage, Integer fileId) {
         //修改PPT首页
@@ -35,42 +39,58 @@ public class CoverPageServiceImpl implements CoverPageService {
     }
 
     /**
-     * 给某个ppt第一次制作
+     * 制作正文页，由于是第一次制作，所以要先生成一份ppt
      * @param userId
      * @param coverPage
      * @param templateId
      * @return
      */
     @Override
-    public UniversalResponseBody makeCoverPage(Integer userId, CoverPage coverPage, Integer templateId) throws IOException {
-
-        /*
-        //生成一个新的ppt文件
-        XMLSlideShow ppt = new XMLSlideShow();
-        //创建幻灯片
-        XSLFSlide slide = ppt.createSlide();
-        XSLFTextBox textBox = slide.createTextBox();
-        textBox.setAnchor(new Rectangle2D.Double(10,10, 0, 0));
-        textBox.addNewTextParagraph().addNewTextRun().setText("创建幻灯片");
-        */
-
-        XMLSlideShow ppt = new XMLSlideShow();// 设置幻灯片大小
-        ppt.setPageSize(new Dimension(760, 600));
-        /*SlideMaster master = ppt.getSlidesMasters()[0]; // 设置母板背景,支持多种图片格式
-        int picIndex = 0;
-        try {
-            picIndex = ppt.addPicture(new File("background.png"), Picture.PNG);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Picture background = new Picture(picIndex);// 设置图片位置
-        background.setAnchor(new java.awt.Rectangle(0, 0,
-                ppt.getPageSize().width, ppt.getPageSize().height));
-        master.addShape(background);*/
-
-
-        //文件输出路径,此步骤为最后一步
-        ppt.write(new FileOutputStream("/Users/mike/ppt1.pptx"));
-        return null;
+    public UniversalResponseBody<FileDetail> makeCoverPage(Integer userId, CoverPage coverPage, Integer templateId) throws IOException {
+        //获取模板ppt文件的路径
+        String templateFilePath =templateFileDetailMapper.GetTemplateFilePath(templateId);
+        XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
+        //获取模板的封面页
+        XSLFSlide slide = ppt.getSlides().get(PageCategoryEnum.COVER_PAGE.getPageCategoryId());
+        //新建一个用户文件
+        XMLSlideShow userFile = new XMLSlideShow();
+        //读取模板文件的排版
+        XSLFSlideLayout layout = slide.getSlideLayout();
+        //将排版应用到用户文件
+        XSLFSlide newSlide = userFile.createSlide(layout);
+        //导入
+        newSlide.importContent(slide);
+        for ( XSLFShape shape : newSlide.getShapes())
+                {
+                    if ( shape instanceof XSLFTextShape)
+                    {
+                        XSLFTextShape txtshape = (XSLFTextShape)shape ;
+                        if (((XSLFTextShape) shape).getText().contains("{Title}")){
+                            txtshape.setText(coverPage.getTitle());
+                        }
+                        if (((XSLFTextShape) shape).getText().contains("{subTitle}")){
+                            txtshape.setText(coverPage.getSubtitle());
+                        }
+                        if (((XSLFTextShape) shape).getText().contains("{reporterName}")){
+                            txtshape.setText(coverPage.getReporterName());
+                        }
+                        if (((XSLFTextShape) shape).getText().contains("{reportTime}")){
+                            txtshape.setText(coverPage.getReportTime());
+                        }
+                    }
+                }
+            FileDetail fileDetail = new FileDetail();
+            //生成文件路径+文件名
+            FileUtil.GenerateFilePath(fileDetail);
+            fileDetail.setUserId(userId);
+            fileDetail.setTemplateId(templateId);
+            //将文件信息插入数据库
+            fileDetailMapper.insertFileDetail(fileDetail);
+            //输出文件
+            FileOutputStream out = new FileOutputStream(fileDetail.getFilePath());
+            userFile.write(out);
+            out.close();
+            userFile.close();
+            return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
     }
 }

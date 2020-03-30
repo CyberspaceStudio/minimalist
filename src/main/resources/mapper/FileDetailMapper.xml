@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jijian.ppt.mapper.FileDetailMapper">
+
+    <resultMap id="FileDetail" type="com.jijian.ppt.POJO.FileDetail">
+        <id column="file_id" property="fileId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="file_path" property="filePath" jdbcType="VARCHAR"/>
+        <result column="template_id" property="templateId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <insert id="insertFileDetail"  useGeneratedKeys="true" keyProperty="fileId">
+        INSERT INTO filedetail(user_id,file_path,template_id)
+        VALUES
+        (#{userId,jdbcType=INTEGER},#{filePath,jdbcType=VARCHAR},#{templateId,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="getPathByFileId" resultType="java.lang.String">
+        SELECT file_path
+        FROM filedetail
+        where file_Id = #{fileId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getDetailByFileId" resultMap="FileDetail">
+        SELECT file_id,file_path,user_id,template_id
+        FROM filedetail
+        where file_Id = #{fileId,jdbcType=INTEGER}
+    </select>
+</mapper>

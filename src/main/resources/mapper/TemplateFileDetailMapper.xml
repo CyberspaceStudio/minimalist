@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jijian.ppt.mapper.TemplateFileDetailMapper">
+
+    <resultMap id="TemplateFileDetail" type="com.jijian.ppt.POJO.TemplateFileDetail">
+        <id column="template_id" property="templateId" jdbcType="INTEGER"/>
+        <result column="file_path" property="filePath" jdbcType="VARCHAR"/>
+        <result column="template_tag" property="templateTag" jdbcType="VARCHAR"/>
+        <result column="coverImage_url" property="coverImageUrl" jdbcType="VARCHAR"/>
+        <result column="template_name" property="templateName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="InsertTemplateFileDetail" useGeneratedKeys="true" keyProperty="templateId">
+    INSERT INTO templatefiledetail(file_path,template_tag,template_name,coverImage_url)
+    VALUES (#{filePath,jdbcType=VARCHAR},#{templateTag,jdbcType=VARCHAR},#{templateName,jdbcType=VARCHAR},#{coverImageUrl,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="GetTemplateFilePath" resultType="java.lang.String">
+        SELECT file_path
+        FROM templatefiledetail
+        where template_id = #{templateId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="GetTemplateDetailByTag" resultMap="TemplateFileDetail">
+        SELECT template_id,file_path,template_tag,template_name,coverImage_url
+        FROM templatefiledetail
+        WHERE  template_tag = #{templateTag,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

@@ -21,4 +21,14 @@ public class CoverPage {
      */
     private String subtitle;
 
+
+    /**
+     *汇报人姓名
+     */
+    private String reporterName;
+
+    /**
+     * 汇报时间
+     */
+    private String reportTime;
 }
