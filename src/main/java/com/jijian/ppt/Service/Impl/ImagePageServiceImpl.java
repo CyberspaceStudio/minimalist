@@ -26,7 +26,6 @@ import java.net.URL;
 @Service
 @Slf4j
 public class ImagePageServiceImpl implements ImagePageService {
-
     @Resource
     private FileDetailMapper fileDetailMapper;
     @Resource
