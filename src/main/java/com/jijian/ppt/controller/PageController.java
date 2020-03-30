@@ -1,9 +1,8 @@
 package com.jijian.ppt.controller;
 
 import com.jijian.ppt.POJO.FileDetail;
-import com.jijian.ppt.Service.PageService;
+import com.jijian.ppt.service.PageService;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
-import jdk.jfr.Description;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

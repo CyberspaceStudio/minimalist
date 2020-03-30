@@ -1,7 +1,7 @@
-package com.jijian.ppt.Service.Impl;
+package com.jijian.ppt.service.Impl;
 
 import com.jijian.ppt.POJO.FileDetail;
-import com.jijian.ppt.Service.TextPageService;
+import com.jijian.ppt.service.TextPageService;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
 import com.jijian.ppt.utils.Enum.PageCategoryEnum;

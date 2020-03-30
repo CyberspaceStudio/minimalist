@@ -1,4 +1,4 @@
-package com.jijian.ppt.Service;
+package com.jijian.ppt.service;
 
 import com.jijian.ppt.POJO.TemplateFileDetail;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
