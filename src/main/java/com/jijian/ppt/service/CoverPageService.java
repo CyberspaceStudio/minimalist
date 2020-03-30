@@ -1,4 +1,4 @@
-package com.jijian.ppt.Service;
+package com.jijian.ppt.service;
 
 import com.jijian.ppt.POJO.CoverPage;
 import com.jijian.ppt.POJO.FileDetail;

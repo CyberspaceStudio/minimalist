@@ -1,7 +1,7 @@
 package com.jijian.ppt.controller;
 
 import com.jijian.ppt.POJO.TemplateFileDetail;
-import com.jijian.ppt.Service.TemplateService;
+import com.jijian.ppt.service.TemplateService;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
