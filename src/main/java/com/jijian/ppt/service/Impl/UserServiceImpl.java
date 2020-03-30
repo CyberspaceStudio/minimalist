@@ -1,9 +1,9 @@
-package com.jijian.ppt.Service.Impl;
+package com.jijian.ppt.service.Impl;
 
 import com.jijian.ppt.POJO.DTO.TokenPO;
 import com.jijian.ppt.POJO.Info.WxResponseInfo;
 import com.jijian.ppt.POJO.User;
-import com.jijian.ppt.Service.UserService;
+import com.jijian.ppt.service.UserService;
 
 import com.jijian.ppt.mapper.TokenMapper;
 import com.jijian.ppt.mapper.UserMapper;

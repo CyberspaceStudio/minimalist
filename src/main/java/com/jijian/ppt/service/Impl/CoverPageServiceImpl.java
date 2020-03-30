@@ -1,8 +1,8 @@
-package com.jijian.ppt.Service.Impl;
+package com.jijian.ppt.service.Impl;
 
 import com.jijian.ppt.POJO.CoverPage;
 import com.jijian.ppt.POJO.FileDetail;
-import com.jijian.ppt.Service.CoverPageService;
+import com.jijian.ppt.service.CoverPageService;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
 import com.jijian.ppt.utils.Enum.PageCategoryEnum;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.*;
-import java.util.List;
 
 /**
  * @author 郭树耸

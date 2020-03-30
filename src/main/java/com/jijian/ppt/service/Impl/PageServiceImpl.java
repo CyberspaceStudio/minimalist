@@ -1,7 +1,7 @@
-package com.jijian.ppt.Service.Impl;
+package com.jijian.ppt.service.Impl;
 
 import com.jijian.ppt.POJO.FileDetail;
-import com.jijian.ppt.Service.PageService;
+import com.jijian.ppt.service.PageService;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
 import com.jijian.ppt.utils.response.UniversalResponseBody;

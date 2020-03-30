@@ -2,8 +2,7 @@ package com.jijian.ppt.controller;
 
 import com.jijian.ppt.POJO.CoverPage;
 import com.jijian.ppt.POJO.FileDetail;
-import com.jijian.ppt.Service.CoverPageService;
-import com.jijian.ppt.annotation.UserLogin;
+import com.jijian.ppt.service.CoverPageService;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
