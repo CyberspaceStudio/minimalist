@@ -21,5 +21,7 @@ public interface ImagePageService {
      * @return
      * @throws IOException
      */
+
+
     public UniversalResponseBody<FileDetail> makeImagePage(Integer fileId,String[] pictureUrls,String title,String paragraph) throws IOException;
 }
