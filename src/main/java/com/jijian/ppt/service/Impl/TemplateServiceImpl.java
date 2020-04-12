@@ -27,9 +27,7 @@ public class TemplateServiceImpl implements TemplateService {
     @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
 
-
-    @Value("${file.templateDirectory}")
-    private static String templateDirectory;
+    private static String templateDirectory = "/a-minimalist/template";
 
     /**
      * 上传模板文件

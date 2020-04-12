@@ -39,6 +39,7 @@ public class PageServiceImpl implements PageService {
            outputStream.close();
            userFile.close();
        }catch (IOException e){
+           e.printStackTrace();
            return new UniversalResponseBody(ResponseResultEnum.FAILED.getCode(),ResponseResultEnum.FAILED.getMsg());
        }
         return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
@@ -57,6 +58,7 @@ public class PageServiceImpl implements PageService {
             outputStream.close();
             userFile.close();
         }catch (IOException e){
+            e.printStackTrace();
             return new UniversalResponseBody(ResponseResultEnum.FAILED.getCode(),ResponseResultEnum.FAILED.getMsg());
         }
         return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);

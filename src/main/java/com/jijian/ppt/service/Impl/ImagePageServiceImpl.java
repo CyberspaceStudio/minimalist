@@ -1,11 +1,11 @@
-package com.jijian.ppt.Service.Impl;
+package com.jijian.ppt.service.Impl;
+
 import com.jijian.ppt.POJO.FileDetail;
-import com.jijian.ppt.Service.ImagePageService;
+import com.jijian.ppt.service.ImagePageService;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
 import com.jijian.ppt.utils.Enum.PageCategoryEnum;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
-import com.jijian.ppt.utils.FileUtil;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.sl.usermodel.PictureData;
@@ -31,7 +31,12 @@ public class ImagePageServiceImpl implements ImagePageService {
     @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
 
-    //从inputStream中读取文件到byte数组
+    /**
+     * 从inputStream中读取文件到byte数组
+     * @param url
+     * @return
+     * @throws IOException
+     */
     private static byte[] getByte(String url) throws IOException {
         URL picture=new URL(url);
         InputStream inStream=picture.openStream();
@@ -66,6 +71,8 @@ public class ImagePageServiceImpl implements ImagePageService {
         XSLFSlideLayout layout = templateSlide.getSlideLayout();
         //将排版应用到用户文件
         XSLFSlide slide = userFile.createSlide(layout);
+        slide.importContent(templateSlide);
+
 
         //插入文本
         Integer imageNumber=pictureUrls.length;
@@ -97,10 +104,11 @@ public class ImagePageServiceImpl implements ImagePageService {
 
             XSLFPictureData pd=null;
             String pictureType=pictureUrls[0].substring(pictureUrls[0].length()-4,pictureUrls[0].length());//判断图片类型
-            if(pictureType.equals(".jpg"))
+            if(pictureType.equals(".jpg")) {
                 pd=userFile.addPicture(pictureData, PictureData.PictureType.JPEG);//添加到userFile
-            else if(pictureType.equals(".png"))
+            } else if(pictureType.equals(".png")) {
                 pd=userFile.addPicture(pictureData, PictureData.PictureType.PNG);//添加到userFile
+            }
             XSLFPictureShape pic=slide.createPicture(pd);//放入图文页
             pic.setAnchor(new Rectangle(50,100,400,400));
         }
@@ -109,10 +117,11 @@ public class ImagePageServiceImpl implements ImagePageService {
 
             XSLFPictureData pd1=null;
             String pictureType1=pictureUrls[0].substring(pictureUrls[0].length()-4,pictureUrls[0].length());//判断图片类型
-            if(pictureType1.equals(".jpg"))
+            if(pictureType1.equals(".jpg")) {
                 pd1=userFile.addPicture(pictureData1, PictureData.PictureType.JPEG);//添加到userFile
-            else if(pictureType1.equals(".png"))
+            } else if(pictureType1.equals(".png")) {
                 pd1=userFile.addPicture(pictureData1, PictureData.PictureType.PNG);//添加到userFile
+            }
             XSLFPictureShape pic1=slide.createPicture(pd1);//放入图文页
             pic1.setAnchor(new Rectangle(10,20,400,380));
 

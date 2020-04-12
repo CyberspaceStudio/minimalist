@@ -10,5 +10,11 @@ import com.jijian.ppt.utils.response.UniversalResponseBody;
  */
 public interface ContentPageService {
 
+    /**
+     * 目录页
+     * @param fileId
+     * @param titles
+     * @return
+     */
     UniversalResponseBody<FileDetail> makeContentsPage(Integer fileId, String[] titles);
 }
