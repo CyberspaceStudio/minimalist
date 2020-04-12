@@ -4,12 +4,15 @@ import com.jijian.ppt.POJO.FileDetail;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
 import com.jijian.ppt.service.ContentPageService;
+import com.jijian.ppt.utils.Enum.PageCategoryEnum;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xslf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,9 +27,9 @@ import java.io.IOException;
 @Service
 public class ContentPageServiceImpl implements ContentPageService {
 
-    @Autowired
+    @Resource
     private FileDetailMapper fileDetailMapper;
-    @Autowired
+    @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
     /**
      *  已经创建封面页 ,在其后面追加，默认为第2页
@@ -59,7 +62,7 @@ public class ContentPageServiceImpl implements ContentPageService {
             return new UniversalResponseBody<FileDetail>(ResponseResultEnum.FAILED.getCode(),ResponseResultEnum.FAILED.getMsg(),fileDetail);
         }
         //获取模板的目录页 此处使用第0  4页
-        XSLFSlide templateContentSlide = template.getSlides().get(4);//PageCategoryEnum.CONTENTS_PAGE.getPageCategoryId());
+        XSLFSlide templateContentSlide = template.getSlides().get(PageCategoryEnum.CONTENTS_PAGE.getPageCategoryId());
         //读取模板文件的排版
         XSLFSlideLayout layout = templateContentSlide.getSlideLayout();
         //将排版应用到用户文件

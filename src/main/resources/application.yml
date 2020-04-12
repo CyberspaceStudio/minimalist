@@ -3,16 +3,10 @@ mybatis:
   type-aliases-package: com/jijian/ppt.pojo
 
 wx:
-  appid:
-  secret:
+  appid: wx8b121836dd9f288c
+  secret: ca77a33bee45d25492653f0714963ac4
   templateId:
   url: https://api.weixin.qq.com/sns/jscode2session?appid=${wx.appid}&secret=${wx.secret}&grant_type=authorization_code&js_code=
-
-file:
-  #模板文件所在文件夹
-  templateDirectory: C:\Users\24605\Desktop\minimalist\src\main\resources\static\pptTemplate\
-  # 用户文件所在文件夹
-  userFilePath:
 
 spring:
   profiles:
@@ -21,9 +15,7 @@ spring:
     multipart:
       #支持文件上传
       enabled: true
-      #写入磁盘的阈（yu）值，默认为0
-      file-size-threshold: 0
-      max-file-size: 5MB
+      max-file-size: 20MB
 
 
 
@@ -34,7 +26,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: Gzsnb@666
-    url: jdbc:mysql://47.103.218.66:3306/jijian?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://39.96.114.221:3306/jijian?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
 
   #设置开启热部署
   devtools:
@@ -50,7 +42,7 @@ spring:
   profiles: release
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.103.218.66:3306/jijian?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://39.96.114.221:3306/jijian?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: Gzsnb@666
   #设置开启热部署

@@ -14,6 +14,7 @@ import org.apache.poi.xslf.usermodel.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.awt.*;
 import java.io.*;
 
 /**
@@ -55,10 +56,14 @@ public class CoverPageServiceImpl implements CoverPageService {
         XMLSlideShow userFile = new XMLSlideShow();
         //读取模板文件的排版
         XSLFSlideLayout layout = slide.getSlideLayout();
+        //设置PPT页面大小
+        Dimension dimension = ppt.getPageSize();
+        userFile.setPageSize(dimension);
         //将排版应用到用户文件
         XSLFSlide newSlide = userFile.createSlide(layout);
         //导入
         newSlide.importContent(slide);
+
         for ( XSLFShape shape : newSlide.getShapes())
                 {
                     if ( shape instanceof XSLFTextShape)

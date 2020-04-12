@@ -1,10 +1,14 @@
 package com.jijian.ppt.controller;
 
 import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.service.ContentPageService;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * 目录页
@@ -16,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ppt/contents")
 public class ContentsPageController {
 
+    @Resource
+    @Qualifier("contentPageServiceImpl")
+    private ContentPageService contentPageService;
+
     /**
      * 制作目录页
      * @param fileId
@@ -24,6 +32,6 @@ public class ContentsPageController {
      */
     @PostMapping("/make")
     public UniversalResponseBody<FileDetail> makeContentsPage(Integer fileId,String[] titles){
-        return null;
+        return contentPageService.makeContentsPage(fileId, titles);
     }
 }

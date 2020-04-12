@@ -1,7 +1,6 @@
 package com.jijian.ppt;
 
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
-import com.jijian.ppt.utils.pptUtil.PPTtest;
 import com.power.common.util.DateTimeUtil;
 import com.power.doc.builder.HtmlApiDocBuilder;
 import com.power.doc.constants.DocGlobalConstants;
@@ -20,16 +19,6 @@ class PptApplicationTests {
     void contextLoads() throws IOException {
 
     }
-
-
-    public static void main(String[] args) throws IOException {
-        PPTtest ppTtest = new PPTtest();
-        ppTtest.test4();
-      System.out.println("执行完成！！！！！！！！！");
-
-
-    }
-
 
     //生成API-H5文档
     @Test
@@ -53,8 +42,7 @@ class PptApplicationTests {
         //设置公共请求头.如果不需要请求头，则无需设置
         config.setRequestHeaders(
                 ApiReqHeader.header().setName("token").setType("string")
-                        .setDesc("Basic auth credentials").setRequired(true),
-                ApiReqHeader.header().setName("userId").setType("Integer").setDesc("用户全局Id")
+                        .setDesc("登录token").setRequired(true)
         );
 
         //1.7.9 优化了错误码处理，用于下面替代遍历枚举设置错误码
