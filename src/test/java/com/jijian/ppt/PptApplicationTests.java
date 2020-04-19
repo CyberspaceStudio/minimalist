@@ -24,7 +24,7 @@ class PptApplicationTests {
     @Test
     public void testBuilderControllersApi() {
         ApiConfig config = new ApiConfig();
-        config.setServerUrl("https:minimalist.net.cn");
+        config.setServerUrl("https://minimalist.net.cn/minimalist");
 
         //设置为严格模式，Smart-doc将降至要求每个Controller暴露的接口写上标准文档注释
         config.setStrict(true);

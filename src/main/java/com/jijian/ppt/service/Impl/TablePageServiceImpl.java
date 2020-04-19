@@ -1,7 +1,7 @@
-package com.jijian.ppt.Service.Impl;
+package com.jijian.ppt.service.Impl;
 
 import com.jijian.ppt.POJO.FileDetail;
-import com.jijian.ppt.Service.TablePageService;
+import com.jijian.ppt.service.TablePageService;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
 import com.jijian.ppt.utils.Enum.PageCategoryEnum;
@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ooxml.POIXMLDocumentPart;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xslf.usermodel.XMLSlideShow;
-import org.apache.poi.xslf.usermodel.XSLFChart;
-import org.apache.poi.xslf.usermodel.XSLFSlide;
-import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
+import org.apache.poi.xslf.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -26,7 +23,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 
 /**
  *图表页相关接口
@@ -43,7 +39,7 @@ public class TablePageServiceImpl implements TablePageService {
     private TemplateFileDetailMapper templateFileDetailMapper;
 
     @Override
-    public UniversalResponseBody<FileDetail> makeTablePage(Integer fileId, String[] names, String[] values, String chartTitle) throws IOException {
+    public UniversalResponseBody<FileDetail> makeTablePage(Integer fileId, String[] names, String[] values, String chartTitle,String title,String paragraph) throws IOException {
         //读取文件详细信息
         FileDetail fileDetail = fileDetailMapper.getDetailByFileId(fileId);
 
@@ -61,6 +57,21 @@ public class TablePageServiceImpl implements TablePageService {
         XSLFSlideLayout layout = templateSlide.getSlideLayout();
         //将排版应用到用户文件
         XSLFSlide slide = userFile.createSlide(layout);
+
+
+        for ( XSLFShape shape : slide.getShapes())
+        {
+            if ( shape instanceof XSLFTextShape)
+            {
+                XSLFTextShape txtshape = (XSLFTextShape)shape ;
+                if (((XSLFTextShape) shape).getText().contains("{Title}")){
+                    txtshape.setText(title);
+                }
+                if (((XSLFTextShape) shape).getText().contains("{Paragraph}")){
+                    txtshape.setText(paragraph);
+                }
+            }
+        }
 
         //遍历图表页元素找到图表
         XSLFChart chart = null;

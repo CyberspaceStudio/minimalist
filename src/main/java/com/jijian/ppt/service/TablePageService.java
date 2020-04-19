@@ -1,4 +1,4 @@
-package com.jijian.ppt.Service;
+package com.jijian.ppt.service;
 
 import com.jijian.ppt.POJO.FileDetail;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
@@ -21,5 +21,5 @@ public interface TablePageService {
      * @return
      * @throws IOException
      */
-    public UniversalResponseBody<FileDetail> makeTablePage(Integer fileId, String[] names, String[] values, String chartTitle) throws IOException;
+    public UniversalResponseBody<FileDetail> makeTablePage(Integer fileId, String[] names, String[] values, String chartTitle,String title,String paragraph) throws IOException;
 }
