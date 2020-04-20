@@ -58,13 +58,12 @@ public class TablePageServiceImpl implements TablePageService {
         //将排版应用到用户文件
         XSLFSlide slide = userFile.createSlide(layout);
 
-
-        for ( XSLFShape shape : slide.getShapes())
+        for ( XSLFShape shape : templateSlide.getShapes())
         {
             if ( shape instanceof XSLFTextShape)
             {
                 XSLFTextShape txtshape = (XSLFTextShape)shape ;
-                if (((XSLFTextShape) shape).getText().contains("{Title}")){
+                if (((XSLFTextShape) shape).getText().contains("Title")){
                     txtshape.setText(title);
                 }
                 if (((XSLFTextShape) shape).getText().contains("{Paragraph}")){
@@ -72,7 +71,7 @@ public class TablePageServiceImpl implements TablePageService {
                 }
             }
         }
-
+        slide.importContent(templateSlide);
         //遍历图表页元素找到图表
         XSLFChart chart = null;
         for (POIXMLDocumentPart part : slide.getRelations()) {

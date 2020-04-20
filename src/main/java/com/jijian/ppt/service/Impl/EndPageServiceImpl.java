@@ -8,6 +8,9 @@ import com.jijian.ppt.utils.Enum.PageCategoryEnum;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
 import com.jijian.ppt.utils.FileUtil;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
+import org.apache.poi.sl.usermodel.TextParagraph;
+import org.apache.poi.sl.usermodel.TextRun;
+import org.apache.poi.sl.usermodel.TextShape;
 import org.apache.poi.xslf.usermodel.*;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author 郭树耸
@@ -51,18 +55,28 @@ public class EndPageServiceImpl implements EndPageService {
         XSLFSlideLayout layout = slide.getSlideLayout();
         //将排版应用到用户文件
         XSLFSlide newSlide = userFile.createSlide(layout);
-        //导入上下文
-        newSlide.importContent(slide);
-        for ( XSLFShape shape : newSlide.getShapes())
+
+        for ( XSLFShape shape : slide.getShapes())
         {
             if ( shape instanceof XSLFTextShape)
             {
                 XSLFTextShape txtshape = (XSLFTextShape)shape ;
-                if (((XSLFTextShape) shape).getText().contains("{Title}")){
-                    txtshape.setText(title);
+                java.util.List<TextParagraph> list = ((TextShape) shape).getTextParagraphs();
+                for (TextParagraph textParagraph:
+                        list) {
+                    List<TextRun> textRuns = textParagraph.getTextRuns();
+                    for (TextRun textRun:
+                            textRuns) {
+                        String text = textRun.getRawText();
+                        if (text.equals("Title")){
+                            textRun.setText(title);
+                        }
+                    }
                 }
             }
         }
+        //导入上下文
+        newSlide.importContent(slide);
         //输出文件
         FileOutputStream out = new FileOutputStream(fileDetail.getFilePath());
         userFile.write(out);

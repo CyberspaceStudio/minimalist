@@ -9,6 +9,9 @@ import com.jijian.ppt.utils.Enum.ResponseResultEnum;
 import com.jijian.ppt.utils.FileUtil;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.sl.usermodel.TextParagraph;
+import org.apache.poi.sl.usermodel.TextRun;
+import org.apache.poi.sl.usermodel.TextShape;
 import org.apache.poi.xslf.usermodel.*;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 正文页相关接口
@@ -53,22 +57,35 @@ public class TextPageServiceImpl implements TextPageService {
         XSLFSlideLayout layout = slide.getSlideLayout();
         //将排版应用到用户文件
         XSLFSlide newSlide = userFile.createSlide(layout);
-        //导入上下文
-        newSlide.importContent(slide);
-        for ( XSLFShape shape : newSlide.getShapes())
+
+        for ( XSLFShape shape : slide.getShapes())
         {
             if ( shape instanceof XSLFTextShape)
             {
                 XSLFTextShape txtshape = (XSLFTextShape)shape ;
-                if (((XSLFTextShape) shape).getText().contains("{Title}")){
-                    txtshape.setText(title);
-                }
-                if (((XSLFTextShape) shape).getText().contains("{Paragraph}")){
-                    txtshape.setText(paragraph);
-                }
+                List<TextParagraph> list = ((TextShape) shape).getTextParagraphs();
+                for (TextParagraph textParagraph:
+                        list) {
+                    System.out.println(textParagraph.toString());
+                    List<TextRun> textRuns = textParagraph.getTextRuns();
+                    for (TextRun textRun:
+                            textRuns) {
+                        System.out.println(textRun.toString());
+                        String text = textRun.getRawText();
+                        System.out.println(text);
+                        if (text.equals("Title")){
+                            textRun.setText(title);
+                        }
+                        if (text.equals("Paragraph")) {
+                            textRun.setText(paragraph);
+                        }
+                    }
 
+                }
             }
         }
+        //导入上下文
+        newSlide.importContent(slide);
         //输出文件
         FileOutputStream out = new FileOutputStream(fileDetail.getFilePath());
         userFile.write(out);
