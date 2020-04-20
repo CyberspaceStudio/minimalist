@@ -1,16 +1,27 @@
 package com.jijian.ppt;
 
+import com.jijian.ppt.POJO.CoverPage;
+import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.utils.Enum.PageCategoryEnum;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
+import com.jijian.ppt.utils.FileUtil;
+import com.jijian.ppt.utils.response.UniversalResponseBody;
 import com.power.common.util.DateTimeUtil;
 import com.power.doc.builder.HtmlApiDocBuilder;
 import com.power.doc.constants.DocGlobalConstants;
 import com.power.doc.model.ApiConfig;
 import com.power.doc.model.ApiErrorCodeDictionary;
 import com.power.doc.model.ApiReqHeader;
+import org.apache.poi.sl.usermodel.TextParagraph;
+import org.apache.poi.sl.usermodel.TextRun;
+import org.apache.poi.sl.usermodel.TextShape;
+import org.apache.poi.xslf.usermodel.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.awt.*;
 import java.io.*;
+import java.util.List;
 
 @SpringBootTest
 class PptApplicationTests {
@@ -24,7 +35,7 @@ class PptApplicationTests {
     @Test
     public void testBuilderControllersApi() {
         ApiConfig config = new ApiConfig();
-        config.setServerUrl("https:minimalist.net.cn");
+        config.setServerUrl("https://minimalist.net.cn/minimalist");
 
         //设置为严格模式，Smart-doc将降至要求每个Controller暴露的接口写上标准文档注释
         config.setStrict(true);
@@ -66,6 +77,61 @@ class PptApplicationTests {
         DateTimeUtil.printRunTime(end, start);
     }
 
+    @Test
+    public void makeCoverPage() throws IOException {
+        //获取模板ppt文件的路径
+        String templateFilePath ="C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\template.pptx";
+        XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
+        //获取模板的封面页
+        XSLFSlide slide = ppt.getSlides().get(PageCategoryEnum.COVER_PAGE.getPageCategoryId());
+        //新建一个用户文件
+        XMLSlideShow userFile = new XMLSlideShow();
+        //读取模板文件的排版
+        XSLFSlideLayout layout = slide.getSlideLayout();
+        //设置PPT页面大小
+        Dimension dimension = ppt.getPageSize();
+        userFile.setPageSize(dimension);
+        //将排版应用到用户文件
+        XSLFSlide newSlide = userFile.createSlide(layout);
+        for ( XSLFShape shape : slide.getShapes())
+        {
+            if ( shape instanceof XSLFTextShape)
+            {
+                XSLFTextShape txtshape = (XSLFTextShape)shape ;
+                List<TextParagraph> list = ((TextShape) shape).getTextParagraphs();
+                for (TextParagraph textParagraph:
+                         list) {
+                    System.out.println(textParagraph.toString());
+                    List<TextRun> textRuns = textParagraph.getTextRuns();
+                    for (TextRun textRun:
+                         textRuns) {
+                        System.out.println(textRun.toString());
+                        String text = textRun.getRawText();
+                        System.out.println(text);
+                        if (text.equals("Title")){
+                            textRun.setText("标题");
+                        }
+                        if (text.equals("subTitle")) {
+                            textRun.setText("副标题");
+                        }
+                        if (text.equals("reporterName")){
+                            textRun.setText("姓名");
+                        }
+                        if (text.equals("reportTime")){
+                            textRun.setText("时间");
+                        }
 
+                    }
+
+                }
+            }
+        }
+        //导入
+        newSlide.importContent(slide);
+        FileOutputStream out = new FileOutputStream("C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\1.pptx");
+        userFile.write(out);
+        out.close();
+        userFile.close();
+    }
 
 }

@@ -10,12 +10,16 @@ import com.jijian.ppt.utils.Enum.ResponseResultEnum;
 import com.jijian.ppt.utils.FileUtil;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.sl.usermodel.TextParagraph;
+import org.apache.poi.sl.usermodel.TextRun;
+import org.apache.poi.sl.usermodel.TextShape;
 import org.apache.poi.xslf.usermodel.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.awt.*;
 import java.io.*;
+import java.util.List;
 
 /**
  * @author 郭树耸
@@ -61,28 +65,36 @@ public class CoverPageServiceImpl implements CoverPageService {
         userFile.setPageSize(dimension);
         //将排版应用到用户文件
         XSLFSlide newSlide = userFile.createSlide(layout);
-        //导入
-        newSlide.importContent(slide);
-
-        for ( XSLFShape shape : newSlide.getShapes())
-                {
-                    if ( shape instanceof XSLFTextShape)
-                    {
-                        XSLFTextShape txtshape = (XSLFTextShape)shape ;
-                        if (((XSLFTextShape) shape).getText().contains("{Title}")){
-                            txtshape.setText(coverPage.getTitle());
+        for ( XSLFShape shape : slide.getShapes())
+        {
+            if ( shape instanceof XSLFTextShape)
+            {
+                XSLFTextShape txtshape = (XSLFTextShape)shape ;
+                java.util.List<TextParagraph> list = ((TextShape) shape).getTextParagraphs();
+                for (TextParagraph textParagraph:
+                        list) {
+                    List<TextRun> textRuns = textParagraph.getTextRuns();
+                    for (TextRun textRun:
+                            textRuns) {
+                        String text = textRun.getRawText();
+                        if (text.equals("Title")){
+                            textRun.setText(coverPage.getTitle());
                         }
-                        if (((XSLFTextShape) shape).getText().contains("{subTitle}")){
-                            txtshape.setText(coverPage.getSubtitle());
+                        if (text.equals("subTitle")) {
+                            textRun.setText(coverPage.getSubtitle());
                         }
-                        if (((XSLFTextShape) shape).getText().contains("{reporterName}")){
-                            txtshape.setText(coverPage.getReporterName());
+                        if (text.equals("reporterName")){
+                            textRun.setText(coverPage.getReporterName());
                         }
-                        if (((XSLFTextShape) shape).getText().contains("{reportTime}")){
-                            txtshape.setText(coverPage.getReportTime());
+                        if (text.equals("reporterTime")){
+                            textRun.setText(coverPage.getReportTime());
                         }
                     }
                 }
+            }
+        }
+            //导入
+            newSlide.importContent(slide);
             FileDetail fileDetail = new FileDetail();
             //生成文件路径+文件名
             FileUtil.GenerateFilePath(fileDetail);

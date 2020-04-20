@@ -28,10 +28,10 @@ public class FileUtil {
      * 上线时请更换地址
      *
      */
-     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyMMdd\\");
-     private static final String FileDirectory = "C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\";
-     //private static SimpleDateFormat sdf = new SimpleDateFormat("/yyyMMdd/");
-     //private static String FileDirectory = "/minimalist/file";
+     //private static SimpleDateFormat sdf = new SimpleDateFormat("yyyMMdd\\");
+     //private static final String FileDirectory = "C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\";
+     private static SimpleDateFormat sdf = new SimpleDateFormat("/yyyMMdd/");
+     private static String FileDirectory = "/a-minimalist/file";
 
     /**
      * 生成文件路径

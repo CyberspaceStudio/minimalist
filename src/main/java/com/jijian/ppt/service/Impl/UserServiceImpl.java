@@ -54,10 +54,10 @@ public class UserServiceImpl implements UserService {
         //该用户在数据库中的数据
         log.info(wxResponseInfo.getOpenid());
         User user = userMapper.findUserByOpenId(wxResponseInfo.getOpenid());
-        log.info(user.toString());
         //数据库中已经存在该用户
         if(user!=null) {
             token = tokenMapper.findTokenByUserId(user.getUserId());
+            log.info(user.toString());
             log.info("token为"+token+"\t");
             tokenPO = new TokenPO(user, token);
             return new UniversalResponseBody<TokenPO>(ResponseResultEnum.USER_HAVE_EXIST.getCode(),ResponseResultEnum.USER_HAVE_EXIST.getMsg(),tokenPO);
@@ -65,7 +65,6 @@ public class UserServiceImpl implements UserService {
             //插入用户
             user = new User(wxResponseInfo.getOpenid());
             userMapper.InsertUser(user);
-
             //根据userId生成token
             token = tokenutil.TokenByUserId(user.getUserId());
             tokenPO = new TokenPO(user, token);
