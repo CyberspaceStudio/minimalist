@@ -1,6 +1,7 @@
 package com.jijian.ppt;
 
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
+import com.jijian.ppt.utils.FileUtil;
 import com.power.common.util.DateTimeUtil;
 import com.power.doc.builder.HtmlApiDocBuilder;
 import com.power.doc.constants.DocGlobalConstants;
@@ -71,7 +72,8 @@ class PptApplicationTests {
 
     @Test
     public void makeCoverPage() throws Exception {
-
+        FileUtil fileUtil = new FileUtil();
+        fileUtil.pptxPreviewByPOI("C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\template.pptx");
 
     }
 

@@ -2,11 +2,17 @@ package com.jijian.ppt.utils;
 
 import com.jijian.ppt.POJO.FileDetail;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
 
 import javax.annotation.Resource;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 /**
  * PPT相关工具类
@@ -51,7 +57,44 @@ public class FileUtil {
         fileDetail.setFilePath(filePath);
     }
 
+    /**
+     * 利用POI库将PPTX转换为图片，但此方法存在严重的丢失
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
+    public List<String> pptxPreviewByPOI(String filePath) throws IOException {
+        List<String> urls = new LinkedList<>();
+        FileInputStream is = new FileInputStream(filePath);
+        XMLSlideShow ppt = new XMLSlideShow(is);
+        is.close();
+        String imgUrl = "https://minimalist.net.cn/image";
+        String dir = filePath.substring(0, filePath.lastIndexOf("/"));
+        Dimension pgsize = ppt.getPageSize();
+        System.out.println(pgsize.width + "--" + pgsize.height);
+        for (int i = 0; i < ppt.getSlides().size(); i++) {
+            try {
+                BufferedImage img = new BufferedImage(pgsize.width, pgsize.height, BufferedImage.TYPE_INT_RGB);
+                Graphics2D graphics = img.createGraphics();
+                // clear the drawing area
+                graphics.setPaint(Color.white);
+                graphics.fill(new Rectangle2D.Float(0, 0, pgsize.width, pgsize.height));
+                // render
+                ppt.getSlides().get(i).draw(graphics);
 
+                // save the output
+                String filename = dir + "/" + (i + 1) + ".jpg";
+                System.out.println(filename);
+                urls.add(filename);
+                FileOutputStream out = new FileOutputStream(filename);
+                javax.imageio.ImageIO.write(img, "png", out);
+                out.close();
+            } catch (Exception e) {
+                System.out.println("第" + i + "张ppt转换出错");
+            }
+        }
 
+        return urls;
+    }
 
 }
