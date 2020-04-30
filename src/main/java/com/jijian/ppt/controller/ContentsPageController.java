@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 /**
  * 目录页
@@ -31,7 +32,7 @@ public class ContentsPageController {
      * @return
      */
     @PostMapping("/make")
-    public UniversalResponseBody<FileDetail> makeContentsPage(Integer fileId,String[] titles){
+    public UniversalResponseBody<FileDetail> makeContentsPage(Integer fileId,String[] titles) throws IOException {
         return contentPageService.makeContentsPage(fileId, titles);
     }
 }

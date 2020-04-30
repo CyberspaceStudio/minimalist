@@ -33,4 +33,8 @@ public class FileDetail {
      */
     private String filePath;
 
+    /**
+     * ppt目前有多少页
+     */
+    private Integer pageCounts;
 }

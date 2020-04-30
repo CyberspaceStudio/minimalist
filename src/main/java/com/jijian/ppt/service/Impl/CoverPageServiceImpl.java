@@ -97,6 +97,7 @@ public class CoverPageServiceImpl implements CoverPageService {
             newSlide.importContent(slide);
             FileDetail fileDetail = new FileDetail();
             //生成文件路径+文件名
+
             FileUtil.GenerateFilePath(fileDetail);
             fileDetail.setUserId(userId);
             fileDetail.setTemplateId(templateId);
@@ -107,6 +108,7 @@ public class CoverPageServiceImpl implements CoverPageService {
             userFile.write(out);
             out.close();
             userFile.close();
+            fileDetail.setPageCounts(1);
             return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
     }
 }

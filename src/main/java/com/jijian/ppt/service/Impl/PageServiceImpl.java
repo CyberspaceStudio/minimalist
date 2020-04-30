@@ -42,6 +42,7 @@ public class PageServiceImpl implements PageService {
            e.printStackTrace();
            return new UniversalResponseBody(ResponseResultEnum.FAILED.getCode(),ResponseResultEnum.FAILED.getMsg());
        }
+
         return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
     }
 
@@ -61,6 +62,10 @@ public class PageServiceImpl implements PageService {
             e.printStackTrace();
             return new UniversalResponseBody(ResponseResultEnum.FAILED.getCode(),ResponseResultEnum.FAILED.getMsg());
         }
+        Integer pageCount = fileDetail.getPageCounts();
+        pageCount--;
+        fileDetailMapper.updatePageCount(fileId,pageCount);
+        fileDetail.setPageCounts(pageCount);
         return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
     }
 }

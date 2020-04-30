@@ -47,4 +47,14 @@ public class PageController {
     public UniversalResponseBody<FileDetail> deletePage(Integer fileId,Integer pageNum){
         return pageService.deletePage(fileId, pageNum);
     }
+
+    /**
+     * 文件预览接口
+     * @apiNote 预览链接为https://minimalist.net.cn/onlinePreview?url= + https://minimalist.net.cn/文件路径的encodeURIComponent  预览生成的图片访问链接为https://minimalist.net.cn/文件名，不需要.pptx/数字.png
+     * @return
+     */
+    @PostMapping("/")
+   public UniversalResponseBody filePreview(){
+        return null;
+   }
 }

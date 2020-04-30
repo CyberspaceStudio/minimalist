@@ -221,6 +221,10 @@ public class ImagePageServiceImpl implements ImagePageService {
         userFile.write(out);
         out.close();
         userFile.close();
+        Integer pageCount = fileDetail.getPageCounts();
+        pageCount++;
+        fileDetailMapper.updatePageCount(fileId,pageCount);
+        fileDetail.setPageCounts(pageCount);
         return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
     }
 }

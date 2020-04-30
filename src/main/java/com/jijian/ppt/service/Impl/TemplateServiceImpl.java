@@ -39,10 +39,12 @@ public class TemplateServiceImpl implements TemplateService {
      */
     @Override
     public UniversalResponseBody<TemplateFileDetail> uploadTemplateFile(MultipartFile uploadFile,TemplateFileDetail templateFileDetail, HttpServletRequest req) throws IOException {
-
-        String newName = UUID.randomUUID().toString()+".pptx";
+        String newFileName = UUID.randomUUID().toString();
+        String newName = newFileName+".pptx";
         String filePath =templateDirectory+""+ newName;
         templateFileDetail.setFilePath(filePath);
+        String coverImageUrl = new String("https://minimalist.net.cn/"+newFileName+"/0.jpg");
+        templateFileDetail.setCoverImageUrl(coverImageUrl);
         templateFileDetailMapper.InsertTemplateFileDetail(templateFileDetail);
         //文件的保存操作
         uploadFile.transferTo(new File(templateDirectory,newName));

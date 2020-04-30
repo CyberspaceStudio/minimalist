@@ -1,52 +1,57 @@
 package com.jijian.ppt.utils;
 
 import com.jijian.ppt.POJO.FileDetail;
-import com.jijian.ppt.mapper.FileDetailMapper;
-import com.jijian.ppt.utils.Enum.PageCategoryEnum;
-import org.apache.poi.xslf.usermodel.XMLSlideShow;
-import org.apache.poi.xslf.usermodel.XSLFSlide;
-import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 /**
+ * PPT相关工具类
  * @author 郭树耸
  * @version 1.0
  * @date 2020/3/26 10:18
  */
-@Component
+@Slf4j
 public class FileUtil {
 
     /**
      * Linux服务器存储用户文件的文件夹
      * 上线时请更换地址
-     *
      */
      //private static SimpleDateFormat sdf = new SimpleDateFormat("yyyMMdd\\");
      //private static final String FileDirectory = "C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\";
      private static SimpleDateFormat sdf = new SimpleDateFormat("/yyyMMdd/");
-     private static String FileDirectory = "/a-minimalist/file";
+     private  static String FileDirectory = "/a-minimalist/file";
+
+
+    /**
+     * openOffice连接地址和端口，不需要更改
+     */
+    private static final String HOST = "127.0.0.1";
+    private static final int PORT = 8100;
 
     /**
      * 生成文件路径
      * @param fileDetail
      * @return
      */
-    public static void GenerateFilePath(FileDetail fileDetail){
-        String ParentDirectory = FileDirectory+sdf.format(new Date());
+    public  static void GenerateFilePath(FileDetail fileDetail){
+        String uuid = UUID.randomUUID().toString();
+        String ParentDirectory = FileDirectory+sdf.format(new Date())+uuid;
         File folder = new File(ParentDirectory);
         if (!folder.isDirectory()) {
-            //每天对应一个文件夹，如果不存在则新建一个文件夹
+            //每个文件对应一个日期下的一个文件夹，如果不存在则新建一个文件夹
             folder.mkdirs();
         }
-        String filePath =ParentDirectory+""+ UUID.randomUUID().toString()+".pptx";
+        //最后的存储路径为/a-minimalist/file/uuid/uuid.pptx
+        String filePath =ParentDirectory+"/" +uuid+".pptx";
         fileDetail.setFilePath(filePath);
     }
+
+
+
 
 }
