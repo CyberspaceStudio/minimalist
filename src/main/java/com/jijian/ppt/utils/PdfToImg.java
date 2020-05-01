@@ -83,7 +83,7 @@ public class PdfToImg {
 
         List<String> imgUrls = new LinkedList<>();
 
-        String url = "https://minimalist.net.cn/a-minimalist";
+        String url = "https://minimalist.net.cn";
         //pdf文件所在的文件夹
         String dir = pdfPath.substring(0, pdfPath.lastIndexOf("/"));
         log.info(dir);
