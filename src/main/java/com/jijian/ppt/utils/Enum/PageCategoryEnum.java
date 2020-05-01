@@ -9,7 +9,7 @@ package com.jijian.ppt.utils.Enum;
 public enum PageCategoryEnum {
 
     COVER_PAGE(0,"封面页"),
-    CONTENTS_PAGE(1,"目录页"),
+    CONTENT_PAGE(1,"目录页"),
     TRANSITION_PAGE(2,"过渡页"),
     TEXT_PAGE(3,"正文页"),
     PICTURE_PAGE(4,"图文页"),

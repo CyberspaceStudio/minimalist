@@ -5,6 +5,8 @@ import com.jijian.ppt.POJO.FileDetail;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * PPT页面操作
@@ -29,4 +31,12 @@ public interface PageService {
      * @return
      */
     UniversalResponseBody<FileDetail> deletePage(Integer fileId,Integer pageNum);
+
+
+    /**
+     * 文件预览
+     * @param fileId
+     * @return
+     */
+    UniversalResponseBody<List<String>> filePreview(Integer fileId) throws Exception;
 }

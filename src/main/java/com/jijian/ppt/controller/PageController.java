@@ -2,14 +2,17 @@ package com.jijian.ppt.controller;
 
 import com.jijian.ppt.POJO.FileDetail;
 import com.jijian.ppt.service.PageService;
+import com.jijian.ppt.utils.FileUtil;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * PPT页操作
@@ -47,4 +50,17 @@ public class PageController {
     public UniversalResponseBody<FileDetail> deletePage(Integer fileId,Integer pageNum){
         return pageService.deletePage(fileId, pageNum);
     }
+
+    /**
+     * 文件预览
+     * @apiNote 返回的是图片的url链接，是直接可以访问的
+     * @param fileId
+     * @return
+     */
+    @GetMapping("/filePreview")
+   public UniversalResponseBody<List<String>> filePreview(Integer fileId) throws Exception {
+        return pageService.filePreview(fileId);
+   }
+
+
 }

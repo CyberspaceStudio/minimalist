@@ -39,7 +39,7 @@ public class TemplateController {
      * @throws IOException
      */
     @PostMapping("/upload")
-    public UniversalResponseBody<TemplateFileDetail> uploadTemplate(MultipartFile uploadFile,TemplateFileDetail templateFileDetail, HttpServletRequest req) throws IOException {
+    public UniversalResponseBody<TemplateFileDetail> uploadTemplate(MultipartFile uploadFile,TemplateFileDetail templateFileDetail, HttpServletRequest req) throws Exception {
         return templateService.uploadTemplateFile(uploadFile,templateFileDetail, req);
     }
 

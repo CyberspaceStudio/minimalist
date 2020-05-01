@@ -25,7 +25,7 @@ public interface TemplateService {
      * @return
      * @throws IOException
      */
-    public UniversalResponseBody<TemplateFileDetail> uploadTemplateFile(MultipartFile uploadFile,TemplateFileDetail templateFileDetail, HttpServletRequest req) throws IOException;
+    public UniversalResponseBody<TemplateFileDetail> uploadTemplateFile(MultipartFile uploadFile,TemplateFileDetail templateFileDetail, HttpServletRequest req) throws Exception;
 
 
     /**

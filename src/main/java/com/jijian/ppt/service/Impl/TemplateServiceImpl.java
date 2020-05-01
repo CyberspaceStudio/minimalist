@@ -4,6 +4,8 @@ import com.jijian.ppt.POJO.TemplateFileDetail;
 import com.jijian.ppt.service.TemplateService;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
+import com.jijian.ppt.utils.PdfToImg;
+import com.jijian.ppt.utils.Pptx2PdfUtil;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +29,10 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
+    @Resource
+    private Pptx2PdfUtil pptx2PdfUtil;
+    @Resource
+    private PdfToImg pdfToImg;
 
     private static String templateDirectory = "/a-minimalist/template";
 
@@ -38,14 +45,26 @@ public class TemplateServiceImpl implements TemplateService {
      * @throws IOException
      */
     @Override
-    public UniversalResponseBody<TemplateFileDetail> uploadTemplateFile(MultipartFile uploadFile,TemplateFileDetail templateFileDetail, HttpServletRequest req) throws IOException {
+    public UniversalResponseBody<TemplateFileDetail> uploadTemplateFile(MultipartFile uploadFile,TemplateFileDetail templateFileDetail, HttpServletRequest req) throws Exception {
 
-        String newName = UUID.randomUUID().toString()+".pptx";
-        String filePath =templateDirectory+""+ newName;
+        String uuid = UUID.randomUUID().toString();
+        String newName = uuid+".pptx";
+        String filePath =templateDirectory+"/"+uuid+"/"+ newName;
+        String parentDirectory =  templateDirectory+ "/"+uuid+"/";
+        File parentFile = new File(parentDirectory);
+        if (!parentFile.isDirectory()) {
+            //每个文件对应一个日期下的一个文件夹，如果不存在则新建一个文件夹
+            parentFile.mkdirs();
+        }
+
         templateFileDetail.setFilePath(filePath);
-        templateFileDetailMapper.InsertTemplateFileDetail(templateFileDetail);
+
         //文件的保存操作
-        uploadFile.transferTo(new File(templateDirectory,newName));
+        uploadFile.transferTo(new File(parentDirectory,newName));
+
+        List<String> imgUrls =  pdfToImg.pdfToImageOnePageOnImage(pptx2PdfUtil.fileToPdf(filePath));
+        templateFileDetail.setCoverImageUrl(imgUrls.get(0));
+        templateFileDetailMapper.InsertTemplateFileDetail(templateFileDetail);
 
         return new UniversalResponseBody<TemplateFileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),templateFileDetail);
     }

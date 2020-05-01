@@ -30,8 +30,6 @@ import java.util.List;
 public class EndPageServiceImpl implements EndPageService {
 
     @Resource
-    private FileUtil fileUtil;
-    @Resource
     private FileDetailMapper fileDetailMapper;
     @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
@@ -47,10 +45,12 @@ public class EndPageServiceImpl implements EndPageService {
         //读取模板文件
         XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
 
-        //获取模板的正文页
+        //获取模板的结束页
         XSLFSlide slide = ppt.getSlides().get(PageCategoryEnum.END_PAGE.getPageCategoryId());
+
         //读取用户文件
         XMLSlideShow userFile = new XMLSlideShow(new FileInputStream(fileDetail.getFilePath()));
+
         //读取模板文件的排版
         XSLFSlideLayout layout = slide.getSlideLayout();
         //将排版应用到用户文件
@@ -82,6 +82,10 @@ public class EndPageServiceImpl implements EndPageService {
         userFile.write(out);
         out.close();
         userFile.close();
+        Integer pageCount = fileDetail.getPageCounts();
+        pageCount++;
+        fileDetailMapper.updatePageCount(fileId,pageCount);
+        fileDetail.setPageCounts(pageCount);
         return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
     }
 }

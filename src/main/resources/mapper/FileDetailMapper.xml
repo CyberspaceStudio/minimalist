@@ -7,6 +7,7 @@
         <result column="user_id" property="userId" jdbcType="INTEGER"/>
         <result column="file_path" property="filePath" jdbcType="VARCHAR"/>
         <result column="template_id" property="templateId" jdbcType="VARCHAR"/>
+        <result column="page_counts" property="pageCounts" javaType="INTEGER"/>
     </resultMap>
 
 
@@ -16,6 +17,13 @@
         (#{userId,jdbcType=INTEGER},#{filePath,jdbcType=VARCHAR},#{templateId,jdbcType=VARCHAR})
     </insert>
 
+    <update id="updatePageCount">
+        UPDATE filedetail
+        SET page_counts = #{pageCounts,jdbcType=INTEGER}
+        where file_Id = #{fileId,jdbcType=INTEGER}
+    </update>
+
+
     <select id="getPathByFileId" resultType="java.lang.String">
         SELECT file_path
         FROM filedetail
@@ -23,7 +31,7 @@
     </select>
 
     <select id="getDetailByFileId" resultMap="FileDetail">
-        SELECT file_id,file_path,user_id,template_id
+        SELECT file_id,file_path,user_id,template_id,page_counts
         FROM filedetail
         where file_Id = #{fileId,jdbcType=INTEGER}
     </select>

@@ -32,8 +32,6 @@ import java.util.List;
 public class TextPageServiceImpl implements TextPageService {
 
     @Resource
-    private FileUtil fileUtil;
-    @Resource
     private FileDetailMapper fileDetailMapper;
     @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
@@ -66,13 +64,10 @@ public class TextPageServiceImpl implements TextPageService {
                 List<TextParagraph> list = ((TextShape) shape).getTextParagraphs();
                 for (TextParagraph textParagraph:
                         list) {
-                    System.out.println(textParagraph.toString());
                     List<TextRun> textRuns = textParagraph.getTextRuns();
                     for (TextRun textRun:
                             textRuns) {
-                        System.out.println(textRun.toString());
                         String text = textRun.getRawText();
-                        System.out.println(text);
                         if (text.equals("Title")){
                             textRun.setText(title);
                         }
@@ -91,6 +86,10 @@ public class TextPageServiceImpl implements TextPageService {
         userFile.write(out);
         out.close();
         userFile.close();
+        Integer pageCount = fileDetail.getPageCounts();
+        pageCount++;
+        fileDetailMapper.updatePageCount(fileId,pageCount);
+        fileDetail.setPageCounts(pageCount);
         return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
     }
 }

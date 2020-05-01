@@ -31,4 +31,16 @@ public interface FileDetailMapper {
      * @return
      */
     FileDetail getDetailByFileId(Integer fileId);
+
+
+    /**
+     * 修改ppt页数
+     * @param fileId
+     * @param pageCounts
+     * @return
+     */
+    int updatePageCount(Integer fileId,Integer pageCounts);
+
+
+
 }
