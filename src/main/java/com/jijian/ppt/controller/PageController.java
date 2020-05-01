@@ -2,14 +2,17 @@ package com.jijian.ppt.controller;
 
 import com.jijian.ppt.POJO.FileDetail;
 import com.jijian.ppt.service.PageService;
+import com.jijian.ppt.utils.FileUtil;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * PPT页操作
@@ -49,12 +52,15 @@ public class PageController {
     }
 
     /**
-     * 文件预览接口
-     * @apiNote 预览链接为https://minimalist.net.cn/onlinePreview?url= + https://minimalist.net.cn/文件路径的encodeURIComponent  预览生成的图片访问链接为https://minimalist.net.cn/文件名，不需要.pptx/数字.png
+     * 文件预览
+     * @apiNote 返回的是图片的url链接，是直接可以访问的
+     * @param fileId
      * @return
      */
-    @PostMapping("/")
-   public UniversalResponseBody filePreview(){
-        return null;
+    @GetMapping("/filePreview")
+   public UniversalResponseBody<List<String>> filePreview(Integer fileId) throws Exception {
+        return pageService.filePreview(fileId);
    }
+
+
 }

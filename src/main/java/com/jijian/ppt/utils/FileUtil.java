@@ -4,6 +4,7 @@ import com.jijian.ppt.POJO.FileDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.awt.*;
@@ -21,6 +22,7 @@ import java.util.List;
  * @date 2020/3/26 10:18
  */
 @Slf4j
+@Component
 public class FileUtil {
 
     /**
@@ -46,7 +48,13 @@ public class FileUtil {
      */
     public  static void GenerateFilePath(FileDetail fileDetail){
         String uuid = UUID.randomUUID().toString();
-        String ParentDirectory = FileDirectory+sdf.format(new Date())+uuid;
+        String GrandDirectory =  FileDirectory+sdf.format(new Date());
+        File GrandFolder = new File(GrandDirectory);
+        if (!GrandFolder.isDirectory()) {
+            //每个文件对应一个日期下的一个文件夹，如果不存在则新建一个文件夹
+            GrandFolder.mkdirs();
+        }
+        String ParentDirectory =GrandDirectory +uuid;
         File folder = new File(ParentDirectory);
         if (!folder.isDirectory()) {
             //每个文件对应一个日期下的一个文件夹，如果不存在则新建一个文件夹
@@ -81,11 +89,10 @@ public class FileUtil {
                 graphics.fill(new Rectangle2D.Float(0, 0, pgsize.width, pgsize.height));
                 // render
                 ppt.getSlides().get(i).draw(graphics);
-
                 // save the output
                 String filename = dir + "/" + (i + 1) + ".jpg";
-                System.out.println(filename);
-                urls.add(filename);
+                String imgurl = imgUrl +filename;
+                urls.add(imgurl);
                 FileOutputStream out = new FileOutputStream(filename);
                 javax.imageio.ImageIO.write(img, "png", out);
                 out.close();
