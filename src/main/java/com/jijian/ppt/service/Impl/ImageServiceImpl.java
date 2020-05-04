@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.UUID;
 
 /**
@@ -21,6 +22,7 @@ public class ImageServiceImpl implements ImageService {
 
 
     private static String imageDirectory =  "/a-minimalist/image";
+    //private static String imageDirectory =  "C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate";
     private static String url = "https://minimalist.net.cn";
 
     @Override
@@ -29,6 +31,8 @@ public class ImageServiceImpl implements ImageService {
         String newName = uuid+".png";
         String filePath =imageDirectory+"/"+ newName;
         String imageUrl =  url+filePath;
+        //文件的保存操作
+        uploadFile.transferTo(new File(imageDirectory,newName));
         log.info("图片上传"+imageUrl);
         return new UniversalResponseBody<String>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),imageUrl);
     }

@@ -69,13 +69,14 @@ public class ImagePageServiceImpl implements ImagePageService {
         XMLSlideShow userFile = new XMLSlideShow(new FileInputStream(fileDetail.getFilePath()));
         //读取模板文件的排版
         XSLFSlideLayout layout = templateSlide.getSlideLayout();
+        
         //将排版应用到用户文件
         XSLFSlide slide = userFile.createSlide(layout);
         slide.importContent(templateSlide);
 
-
         //插入文本
         Integer imageNumber=pictureUrls.length;
+        log.info(String.valueOf(slide.getPlaceholders().length));
         XSLFTextShape text=slide.createTextBox();//插入文本框
         if(imageNumber.equals(2)){
             XSLFTextShape title1=slide.createTextBox();//设置标题

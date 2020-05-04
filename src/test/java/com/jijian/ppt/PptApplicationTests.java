@@ -1,6 +1,7 @@
 package com.jijian.ppt;
 
 import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.service.Impl.ImagePageServiceImpl;
 import com.jijian.ppt.service.Impl.TransitionPageServiceImpl;
 import com.jijian.ppt.utils.Enum.PageCategoryEnum;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
@@ -31,7 +32,7 @@ import java.util.List;
 class PptApplicationTests {
 
     @Resource
-    private TransitionPageServiceImpl transitionPageService;
+    private ImagePageServiceImpl imagePageService;
 
     @Test
     void contextLoads() throws IOException {
@@ -86,49 +87,7 @@ class PptApplicationTests {
 
     @Test
     public void makeCoverPage() throws Exception {
-        //获取模板ppt文件的路径
-        String templateFilePath ="C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\template.pptx";
-
-        //读取模板文件
-        XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
-
-        //获取模板的结束页
-        XSLFSlide slide = ppt.getSlides().get(PageCategoryEnum.TRANSITION_PAGE.getPageCategoryId());
-
-        //读取用户文件
-        XMLSlideShow userFile = new XMLSlideShow(new FileInputStream("C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\1.pptx"));
-
-        //读取模板文件的排版
-        XSLFSlideLayout layout = slide.getSlideLayout();
-        //将排版应用到用户文件
-        XSLFSlide newSlide = userFile.createSlide(layout);
-
-        for ( XSLFShape shape : slide.getShapes())
-        {
-            if ( shape instanceof XSLFTextShape)
-            {
-                XSLFTextShape txtshape = (XSLFTextShape)shape ;
-                java.util.List<TextParagraph> list = ((TextShape) shape).getTextParagraphs();
-                for (TextParagraph textParagraph:
-                        list) {
-                    List<TextRun> textRuns = textParagraph.getTextRuns();
-                    for (TextRun textRun:
-                            textRuns) {
-                        String text = textRun.getRawText();
-                        if (text.equals("Title")){
-                            textRun.setText("你好");
-                        }
-                    }
-                }
-            }
-        }
-        //导入上下文
-        newSlide.importContent(slide);
-        //输出文件
-        FileOutputStream out = new FileOutputStream("C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\1.pptx");
-        userFile.write(out);
-        out.close();
-        userFile.close();
+       imagePageService.makeImagePage(115, new String[]{"https://i.loli.net/2020/05/04/ZR6UcgHrYJ4IP2x.jpg"},"biaoti","duanluo");
     }
 
 
