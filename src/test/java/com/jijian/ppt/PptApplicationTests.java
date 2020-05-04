@@ -1,9 +1,13 @@
 package com.jijian.ppt;
 
+import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.service.Impl.TransitionPageServiceImpl;
+import com.jijian.ppt.utils.Enum.PageCategoryEnum;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
 import com.jijian.ppt.utils.FileUtil;
 import com.jijian.ppt.utils.PdfToImg;
 import com.jijian.ppt.utils.Pptx2PdfUtil;
+import com.jijian.ppt.utils.response.UniversalResponseBody;
 import com.power.common.util.DateTimeUtil;
 import com.power.doc.builder.HtmlApiDocBuilder;
 import com.power.doc.constants.DocGlobalConstants;
@@ -11,15 +15,23 @@ import com.power.doc.model.ApiConfig;
 import com.power.doc.model.ApiErrorCodeDictionary;
 import com.power.doc.model.ApiReqHeader;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.sl.usermodel.TextParagraph;
+import org.apache.poi.sl.usermodel.TextRun;
+import org.apache.poi.sl.usermodel.TextShape;
+import org.apache.poi.xslf.usermodel.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
 import java.io.*;
+import java.util.List;
 
 @SpringBootTest
 @Slf4j
 class PptApplicationTests {
 
+    @Resource
+    private TransitionPageServiceImpl transitionPageService;
 
     @Test
     void contextLoads() throws IOException {
@@ -74,7 +86,49 @@ class PptApplicationTests {
 
     @Test
     public void makeCoverPage() throws Exception {
+        //获取模板ppt文件的路径
+        String templateFilePath ="C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\template.pptx";
 
+        //读取模板文件
+        XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
+
+        //获取模板的结束页
+        XSLFSlide slide = ppt.getSlides().get(PageCategoryEnum.TRANSITION_PAGE.getPageCategoryId());
+
+        //读取用户文件
+        XMLSlideShow userFile = new XMLSlideShow(new FileInputStream("C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\1.pptx"));
+
+        //读取模板文件的排版
+        XSLFSlideLayout layout = slide.getSlideLayout();
+        //将排版应用到用户文件
+        XSLFSlide newSlide = userFile.createSlide(layout);
+
+        for ( XSLFShape shape : slide.getShapes())
+        {
+            if ( shape instanceof XSLFTextShape)
+            {
+                XSLFTextShape txtshape = (XSLFTextShape)shape ;
+                java.util.List<TextParagraph> list = ((TextShape) shape).getTextParagraphs();
+                for (TextParagraph textParagraph:
+                        list) {
+                    List<TextRun> textRuns = textParagraph.getTextRuns();
+                    for (TextRun textRun:
+                            textRuns) {
+                        String text = textRun.getRawText();
+                        if (text.equals("Title")){
+                            textRun.setText("你好");
+                        }
+                    }
+                }
+            }
+        }
+        //导入上下文
+        newSlide.importContent(slide);
+        //输出文件
+        FileOutputStream out = new FileOutputStream("C:\\Users\\24605\\Desktop\\minimalist\\src\\main\\resources\\static\\pptTemplate\\1.pptx");
+        userFile.write(out);
+        out.close();
+        userFile.close();
     }
 
 
