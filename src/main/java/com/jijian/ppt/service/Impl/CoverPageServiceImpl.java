@@ -86,29 +86,29 @@ public class CoverPageServiceImpl implements CoverPageService {
                         if (text.equals("reporterName")){
                             textRun.setText(coverPage.getReporterName());
                         }
-                        if (text.equals("reporterTime")){
+                        if (text.equals("reportTime")){
                             textRun.setText(coverPage.getReportTime());
                         }
                     }
                 }
             }
         }
-            //导入
-            newSlide.importContent(slide);
-            FileDetail fileDetail = new FileDetail();
-            //生成文件路径+文件名
+        //导入
+        newSlide.importContent(slide);
+        FileDetail fileDetail = new FileDetail();
+        //生成文件路径+文件名
 
-            FileUtil.GenerateFilePath(fileDetail);
-            fileDetail.setUserId(userId);
-            fileDetail.setTemplateId(templateId);
-            //将文件信息插入数据库
-            fileDetailMapper.insertFileDetail(fileDetail);
-            //输出文件
-            FileOutputStream out = new FileOutputStream(fileDetail.getFilePath());
-            userFile.write(out);
-            out.close();
-            userFile.close();
-            fileDetail.setPageCounts(1);
-            return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
+        FileUtil.GenerateFilePath(fileDetail);
+        fileDetail.setUserId(userId);
+        fileDetail.setTemplateId(templateId);
+        //将文件信息插入数据库
+        fileDetailMapper.insertFileDetail(fileDetail);
+        //输出文件
+        FileOutputStream out = new FileOutputStream(fileDetail.getFilePath());
+        userFile.write(out);
+        out.close();
+        userFile.close();
+        fileDetail.setPageCounts(1);
+        return new UniversalResponseBody<FileDetail>(ResponseResultEnum.SUCCESS.getCode(),ResponseResultEnum.SUCCESS.getMsg(),fileDetail);
     }
 }
