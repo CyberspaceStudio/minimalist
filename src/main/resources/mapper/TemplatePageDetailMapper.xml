@@ -2,24 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jijian.ppt.mapper.TemplatePageDetailMapper">
 
+    <resultMap id="Page" type="com.jijian.ppt.POJO.Page">
+        <id column="page_id" property="pageId" jdbcType="INTEGER"/>
+        <result column="pageImage_url" property="pageImageUrl" jdbcType="VARCHAR"/>
+        <result column="pageCategory_id" property="pageCategoryId" jdbcType="INTEGER"/>
+        <result column="template_id" property="templateId" jdbcType="INTEGER"/>
+        <result column="page_position" property="pagePosition" jdbcType="INTEGER"/>
+    </resultMap>
+
+
     <insert id="insertPageDetail" useGeneratedKeys="true" keyProperty="pageId">
         INSERT INTO template_page_detail(template_id,page_position,pageCategory_id,pageImage_url)
         VALUES (#{templateId,jdbcType=INTEGER},#{pagePosition,jdbcType=INTEGER},#{pageCategoryId,jdbcType=INTEGER},#{pageImageUrl,jdbcType=VARCHAR})
     </insert>
 
-    <select id="getPageByPageId" resultType="com.jijian.ppt.POJO.Page">
+    <select id="getPageByPageId" resultType="com.jijian.ppt.POJO.Page" resultMap="Page">
         SELECT page_id,template_id,page_position,pageCategory_id,pageImage_url
         FROM template_page_detail
         WHERE page_id = #{pageId,jdbcType=INTEGER}
     </select>
 
-    <select id="getPagesByTemplateId" resultType="com.jijian.ppt.POJO.Page">
+    <select id="getPagesByTemplateId" resultType="com.jijian.ppt.POJO.Page" resultMap="Page">
         SELECT page_id,template_id,page_position,pageCategory_id,pageImage_url
         FROM template_page_detail
         WHERE template_id = #{templateId,jdbcType=INTEGER}
     </select>
 
-    <select id="getPagesByTemplateIdAndCategoryId" resultType="com.jijian.ppt.POJO.Page">
+    <select id="getPagesByTemplateIdAndCategoryId" resultType="com.jijian.ppt.POJO.Page" resultMap="Page">
         SELECT page_id,template_id,page_position,pageCategory_id,pageImage_url
         FROM template_page_detail
         WHERE template_id = #{templateId,jdbcType=INTEGER} AND pageCategory_id = #{pageCategoryId,jdbcType=INTEGER}

@@ -90,72 +90,72 @@ class PptApplicationTests {
     @Test
     public void makeCoverPage() throws Exception {
 
-        //获取模板ppt文件的路径
-        String templateFilePath = "C:\\Users\\24605\\Desktop\\2.05.pptx";
-        String[] titles = {"a", "b","c","d","e"};
-        String[] subTitles = {"1"};
-        String[] paragraphs = {"A", "B", "C","D","E"};
-        //读取模板文件
-        XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
-
-        //获取模板的正文页
-        XSLFSlide slide = ppt.getSlides().get(3);
-        //读取用户文件
-        XMLSlideShow userFile = new XMLSlideShow(new FileInputStream(templateFilePath));
-        //读取模板文件的排版
-        XSLFSlideLayout layout = slide.getSlideLayout();
-        //将排版应用到用户文件
-        XSLFSlide newSlide = userFile.createSlide(layout);
-
-        List<XSLFShape> xslfTextShapeList = slide.getShapes();
-        int i = 0,j = 0,k = 0;
-        for ( XSLFShape shape : slide.getShapes())
-        {
-            if ( shape instanceof XSLFTextShape)
-            {
-                XSLFTextShape txtshape = (XSLFTextShape)shape ;
-                List<TextParagraph> list = ((TextShape) shape).getTextParagraphs();
-                for (TextParagraph textParagraph:
-                        list) {
-                    List<TextRun> textRuns = textParagraph.getTextRuns();
-                    for (TextRun textRun:
-                            textRuns) {
-                        String text = textRun.getRawText();
-                        if (text.equals("Title")){
-                            if (i < titles.length){
-                                textRun.setText(titles[i]);
-                                i++;
-                            }else {
-                                textRun.setText("");
-                            }
-                        }
-                        if (text.equals("subTitle")){
-                            if (j < subTitles.length){
-                                textRun.setText(subTitles[j]);
-                                j++;
-                            }else {
-                                textRun.setText("");
-                            }
-                        }
-                        if (text.equals("Paragraph")){
-                            if (k < paragraphs.length){
-                                textRun.setText(paragraphs[j]);
-                                k++;
-                            }else {
-                                textRun.setText("");
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-        //导入上下文
-        newSlide.importContent(slide);
-        //输出文件
-        FileOutputStream out = new FileOutputStream(templateFilePath);
-        userFile.write(out);
-        out.close();
-        userFile.close();
+//        //获取模板ppt文件的路径
+//        String templateFilePath = "C:\\Users\\24605\\Desktop\\2.05.pptx";
+//        String[] titles = {"a", "b","c","d","e"};
+//        String[] subTitles = {"1"};
+//        String[] paragraphs = {"A", "B", "C","D","E"};
+//        //读取模板文件
+//        XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
+//
+//        //获取模板的正文页
+//        XSLFSlide slide = ppt.getSlides().get(3);
+//        //读取用户文件
+//        XMLSlideShow userFile = new XMLSlideShow(new FileInputStream(templateFilePath));
+//        //读取模板文件的排版
+//        XSLFSlideLayout layout = slide.getSlideLayout();
+//        //将排版应用到用户文件
+//        XSLFSlide newSlide = userFile.createSlide(layout);
+//
+//        List<XSLFShape> xslfTextShapeList = slide.getShapes();
+//        int i = 0,j = 0,k = 0;
+//        for ( XSLFShape shape : slide.getShapes())
+//        {
+//            if ( shape instanceof XSLFTextShape)
+//            {
+//                XSLFTextShape txtshape = (XSLFTextShape)shape ;
+//                List<TextParagraph> list = ((TextShape) shape).getTextParagraphs();
+//                for (TextParagraph textParagraph:
+//                        list) {
+//                    List<TextRun> textRuns = textParagraph.getTextRuns();
+//                    for (TextRun textRun:
+//                            textRuns) {
+//                        String text = textRun.getRawText();
+//                        if (text.equals("Title")){
+//                            if (i < titles.length){
+//                                textRun.setText(titles[i]);
+//                                i++;
+//                            }else {
+//                                textRun.setText("");
+//                            }
+//                        }
+//                        if (text.equals("subTitle")){
+//                            if (j < subTitles.length){
+//                                textRun.setText(subTitles[j]);
+//                                j++;
+//                            }else {
+//                                textRun.setText("");
+//                            }
+//                        }
+//                        if (text.equals("Paragraph")){
+//                            if (k < paragraphs.length){
+//                                textRun.setText(paragraphs[j]);
+//                                k++;
+//                            }else {
+//                                textRun.setText("");
+//                            }
+//                        }
+//                    }
+//
+//                }
+//            }
+//        }
+//        //导入上下文
+//        newSlide.importContent(slide);
+//        //输出文件
+//        FileOutputStream out = new FileOutputStream(templateFilePath);
+//        userFile.write(out);
+//        out.close();
+//        userFile.close();
     }
 }
