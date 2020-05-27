@@ -52,8 +52,15 @@ public class ImagePageServiceImpl implements ImagePageService {
         inStream.close();
         return outStream.toByteArray();
     }
+
     @Override
-    public UniversalResponseBody<FileDetail> makeImagePage(Integer fileId,String[] pictureUrls,String title,String paragraph) throws IOException{
+    @Deprecated
+    public UniversalResponseBody<FileDetail> makeImagePageV1(Integer fileId, String[] pictureUrls, String title, String paragraph) throws IOException {
+        return makeImagePage(fileId,5,pictureUrls,title,paragraph);
+    }
+
+    @Override
+    public UniversalResponseBody<FileDetail> makeImagePage(Integer fileId,Integer pageId,String[] pictureUrls,String title,String paragraph) throws IOException{
         //读取文件详细信息
         FileDetail fileDetail = fileDetailMapper.getDetailByFileId(fileId);
 

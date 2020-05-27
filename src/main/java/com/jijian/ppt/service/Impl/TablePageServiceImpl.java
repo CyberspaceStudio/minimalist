@@ -1,6 +1,8 @@
 package com.jijian.ppt.service.Impl;
 
 import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.POJO.Page;
+import com.jijian.ppt.mapper.TemplatePageDetailMapper;
 import com.jijian.ppt.service.TablePageService;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
@@ -37,12 +39,14 @@ public class TablePageServiceImpl implements TablePageService {
     private FileDetailMapper fileDetailMapper;
     @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
+    @Resource
+    private TemplatePageDetailMapper templatePageDetailMapper;
 
     @Override
-    public UniversalResponseBody<FileDetail> makeTablePage(Integer fileId, String[] names, String[] values, String chartTitle,String title,String paragraph) throws IOException {
+    public UniversalResponseBody<FileDetail> makeTablePage(Integer fileId, Integer pageId,String[] names, String[] values, String chartTitle,String title,String paragraph) throws IOException {
+        Page page = templatePageDetailMapper.getPageByPageId(pageId);
         //读取文件详细信息
         FileDetail fileDetail = fileDetailMapper.getDetailByFileId(fileId);
-
         //获取模板ppt文件的路径
         String templateFilePath =templateFileDetailMapper.GetTemplateFilePath(fileDetail.getTemplateId());
 

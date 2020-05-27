@@ -21,7 +21,18 @@ public interface ImagePageService {
      * @return
      * @throws IOException
      */
+    UniversalResponseBody<FileDetail> makeImagePageV1(Integer fileId,String[] pictureUrls,String title,String paragraph) throws IOException;
 
-    UniversalResponseBody<FileDetail> makeImagePage(Integer fileId,String[] pictureUrls,String title,String paragraph) throws IOException;
 
+    /**
+     * 初次制作图文页
+     * @param fileId
+     * @param pictureUrls
+     * @param pageId
+     * @param title
+     * @param paragraph
+     * @return
+     * @throws IOException
+     */
+    UniversalResponseBody<FileDetail> makeImagePage(Integer fileId,Integer pageId,String[] pictureUrls,String title,String paragraph) throws IOException;
 }

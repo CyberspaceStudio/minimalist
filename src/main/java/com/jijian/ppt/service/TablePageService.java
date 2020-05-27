@@ -15,11 +15,12 @@ public interface TablePageService {
     /**
      * 初次制作图表页
      * @param fileId
+     * @param pageId
      * @param names
      * @param values
      * @param chartTitle
      * @return
      * @throws IOException
      */
-    public UniversalResponseBody<FileDetail> makeTablePage(Integer fileId, String[] names, String[] values, String chartTitle,String title,String paragraph) throws IOException;
+    public UniversalResponseBody<FileDetail> makeTablePage(Integer fileId, Integer pageId,String[] names, String[] values, String chartTitle,String title,String paragraph) throws IOException;
 }

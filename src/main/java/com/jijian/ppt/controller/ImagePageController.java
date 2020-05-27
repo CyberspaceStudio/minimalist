@@ -35,6 +35,20 @@ public class ImagePageController {
      */
     @PostMapping("/make")
     public UniversalResponseBody<FileDetail> makeImagePage(Integer fileId,String[] pictureUrls,String title,String paragraph) throws IOException {
-        return imagePageService.makeImagePage(fileId,pictureUrls,title,paragraph);
+        return imagePageService.makeImagePageV1(fileId,pictureUrls,title,paragraph);
+    }
+
+    /**
+     * 制作图文页
+     * @param fileId
+     * @param pictureUrls
+     * @param pageId
+     * @param title
+     * @param paragraph
+     * @return
+     */
+    @PostMapping("/make/v2")
+    public UniversalResponseBody<FileDetail> makeImagePageV2(Integer fileId,Integer pageId,String[] pictureUrls,String title,String paragraph) throws IOException {
+        return imagePageService.makeImagePage(fileId,pageId,pictureUrls,title,paragraph);
     }
 }

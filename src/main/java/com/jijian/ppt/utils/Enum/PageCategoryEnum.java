@@ -20,31 +20,31 @@ public enum PageCategoryEnum {
     /**
      * 页面类型id
      */
-    private Integer PageCategoryId;
+    private Integer pageCategoryId;
 
     /**
      * 页面类型描述
      */
-    private String PageCategoryDetail;
+    private String pageCategoryDetail;
 
     PageCategoryEnum(Integer pageCategoryId, String pageCategoryDetail) {
-        PageCategoryId = pageCategoryId;
-        PageCategoryDetail = pageCategoryDetail;
+        this.pageCategoryId = pageCategoryId;
+        this.pageCategoryDetail = pageCategoryDetail;
     }
 
     public Integer getPageCategoryId() {
-        return PageCategoryId;
+        return this.pageCategoryId;
     }
 
     public void setPageCategoryId(Integer pageCategoryId) {
-        PageCategoryId = pageCategoryId;
+        this.pageCategoryId = pageCategoryId;
     }
 
     public String getPageCategoryDetail() {
-        return PageCategoryDetail;
+        return this.pageCategoryDetail;
     }
 
     public void setPageCategoryDetail(String pageCategoryDetail) {
-        PageCategoryDetail = pageCategoryDetail;
+        this.pageCategoryDetail = pageCategoryDetail;
     }
 }

@@ -1,5 +1,6 @@
 package com.jijian.ppt.service;
 
+import com.jijian.ppt.POJO.Page;
 import com.jijian.ppt.POJO.TemplateFileDetail;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,12 +21,13 @@ public interface TemplateService {
     /**
      * 上传模板文件
      * @param uploadFile
-     * @param templateFileDetail
+     * @param templateName
+     * @param templateTag
      * @param req
      * @return
-     * @throws IOException
+     * @throws Exception
      */
-    public UniversalResponseBody<TemplateFileDetail> uploadTemplateFile(MultipartFile uploadFile,TemplateFileDetail templateFileDetail, HttpServletRequest req) throws Exception;
+    UniversalResponseBody<TemplateFileDetail> uploadTemplateFile(MultipartFile uploadFile,String templateName,String templateTag, HttpServletRequest req) throws Exception;
 
 
     /**
@@ -33,5 +35,20 @@ public interface TemplateService {
      * @param templateTag
      * @return
      */
-    public UniversalResponseBody<List<TemplateFileDetail>> getTemplateByTag(String templateTag);
+    UniversalResponseBody<List<TemplateFileDetail>> getTemplateByTag(String templateTag);
+
+    /**
+     * 查找模板相应类型的页面
+     * @param templateId
+     * @param pageCategoryId
+     * @return
+     */
+    UniversalResponseBody<List<Page>> getPagesByCategoryId(Integer templateId, Integer pageCategoryId);
+
+    /**
+     * 批量插入模板页面的详细信息
+     * @param page
+     * @return
+     */
+    UniversalResponseBody<Page> insertTemplatePageDetail(Page page) throws Exception;
 }

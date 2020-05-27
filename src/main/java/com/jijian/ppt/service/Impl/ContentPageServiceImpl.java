@@ -1,8 +1,10 @@
 package com.jijian.ppt.service.Impl;
 
 import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.POJO.Page;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
+import com.jijian.ppt.mapper.TemplatePageDetailMapper;
 import com.jijian.ppt.service.ContentPageService;
 import com.jijian.ppt.utils.Enum.PageCategoryEnum;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
@@ -32,6 +34,8 @@ public class ContentPageServiceImpl implements ContentPageService {
     private FileDetailMapper fileDetailMapper;
     @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
+    @Resource
+    private TemplatePageDetailMapper templatePageDetailMapper;
     /**
      *  已经创建封面页 ,在其后面追加，默认为第2页
      * @param fileId ppt文件的id
@@ -39,10 +43,22 @@ public class ContentPageServiceImpl implements ContentPageService {
      * @return 返回文件 FileDetail
      */
     @Override
-    public UniversalResponseBody<FileDetail> makeContentsPage(Integer fileId, String[] titles) throws IOException {
-        
-        final FileDetail fileDetail = fileDetailMapper.getDetailByFileId(fileId);
+    @Deprecated
+    public UniversalResponseBody<FileDetail> makeContentsPageV1(Integer fileId,String[] titles) throws IOException {
+        return makeContentsPage(fileId,2,titles);
+    }
 
+    /**
+     *  已经创建封面页 ,在其后面追加，默认为第2页
+     * @param fileId ppt文件的id
+     * @param titles 小标题
+     * @return 返回文件 FileDetail
+     */
+    @Override
+    public UniversalResponseBody<FileDetail> makeContentsPage(Integer fileId, Integer pageId,String[] titles) throws IOException {
+
+        final FileDetail fileDetail = fileDetailMapper.getDetailByFileId(fileId);
+        Page page = templatePageDetailMapper.getPageByPageId(pageId);
         //打开 pptFileName 文件接收
         XMLSlideShow ppt = null;
         try (final FileInputStream inputStream = new FileInputStream(fileDetail.getFilePath())){
@@ -64,7 +80,7 @@ public class ContentPageServiceImpl implements ContentPageService {
             return new UniversalResponseBody<FileDetail>(ResponseResultEnum.FAILED.getCode(),ResponseResultEnum.FAILED.getMsg(),fileDetail);
         }
         //获取模板的目录页
-        XSLFSlide templateContentSlide = template.getSlides().get(PageCategoryEnum.CONTENT_PAGE.getPageCategoryId());
+        XSLFSlide templateContentSlide = template.getSlides().get(page.getPagePosition());
         //读取模板文件的排版
         XSLFSlideLayout layout = templateContentSlide.getSlideLayout();
         //将排版应用到用户文件

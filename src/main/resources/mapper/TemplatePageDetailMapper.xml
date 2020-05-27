@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jijian.ppt.mapper.TemplatePageDetailMapper">
+
+    <insert id="insertPageDetail" useGeneratedKeys="true" keyProperty="pageId">
+        INSERT INTO template_page_detail(template_id,page_position,pageCategory_id,pageImage_url)
+        VALUES (#{templateId,jdbcType=INTEGER},#{pagePosition,jdbcType=INTEGER},#{pageCategoryId,jdbcType=INTEGER},#{pageImageUrl,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="getPageByPageId" resultType="com.jijian.ppt.POJO.Page">
+        SELECT page_id,template_id,page_position,pageCategory_id,pageImage_url
+        FROM template_page_detail
+        WHERE page_id = #{pageId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getPagesByTemplateId" resultType="com.jijian.ppt.POJO.Page">
+        SELECT page_id,template_id,page_position,pageCategory_id,pageImage_url
+        FROM template_page_detail
+        WHERE template_id = #{templateId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getPagesByTemplateIdAndCategoryId" resultType="com.jijian.ppt.POJO.Page">
+        SELECT page_id,template_id,page_position,pageCategory_id,pageImage_url
+        FROM template_page_detail
+        WHERE template_id = #{templateId,jdbcType=INTEGER} AND pageCategory_id = #{pageCategoryId,jdbcType=INTEGER}
+    </select>
+
+
+</mapper>

@@ -19,6 +19,12 @@ public class FileDetail {
     private Integer fileId;
 
     /**
+     * 文件名称
+     */
+    public String fileName;
+
+
+    /**
      * 文件所属的用户id
      */
     private Integer userId;

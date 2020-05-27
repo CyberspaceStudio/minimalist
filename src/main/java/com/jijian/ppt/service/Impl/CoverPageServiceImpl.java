@@ -2,6 +2,8 @@ package com.jijian.ppt.service.Impl;
 
 import com.jijian.ppt.POJO.CoverPage;
 import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.POJO.Page;
+import com.jijian.ppt.mapper.TemplatePageDetailMapper;
 import com.jijian.ppt.service.CoverPageService;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
@@ -34,13 +36,28 @@ public class CoverPageServiceImpl implements CoverPageService {
     private FileDetailMapper fileDetailMapper;
     @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
-
+    @Resource
+    private TemplatePageDetailMapper templatePageDetailMapper;
 
     @Override
     public UniversalResponseBody modifyCoverPage(Integer userId, CoverPage coverPage, Integer fileId) {
         //修改PPT首页
         return null;
     }
+
+    /**
+     * 制作封面页
+     * @param userId
+     * @param coverPage
+     * @param templateId
+     * @return
+     */
+    @Override
+    @Deprecated
+    public UniversalResponseBody<FileDetail> makeCoverPageV1(Integer userId, CoverPage coverPage, Integer templateId) throws IOException{
+        return makeCoverPage(userId, 1,coverPage, templateId);
+    }
+
 
     /**
      * 制作正文页，由于是第一次制作，所以要先生成一份ppt
@@ -50,12 +67,13 @@ public class CoverPageServiceImpl implements CoverPageService {
      * @return
      */
     @Override
-    public UniversalResponseBody<FileDetail> makeCoverPage(Integer userId, CoverPage coverPage, Integer templateId) throws IOException {
+    public UniversalResponseBody<FileDetail> makeCoverPage(Integer userId, Integer pageId,CoverPage coverPage, Integer templateId) throws IOException {
+        Page page = templatePageDetailMapper.getPageByPageId(pageId);
         //获取模板ppt文件的路径
         String templateFilePath =templateFileDetailMapper.GetTemplateFilePath(templateId);
         XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
         //获取模板的封面页
-        XSLFSlide slide = ppt.getSlides().get(PageCategoryEnum.COVER_PAGE.getPageCategoryId());
+        XSLFSlide slide = ppt.getSlides().get(page.getPagePosition());
         //新建一个用户文件
         XMLSlideShow userFile = new XMLSlideShow();
         //读取模板文件的排版
@@ -101,6 +119,7 @@ public class CoverPageServiceImpl implements CoverPageService {
         FileUtil.GenerateFilePath(fileDetail);
         fileDetail.setUserId(userId);
         fileDetail.setTemplateId(templateId);
+        fileDetail.setFileName(coverPage.getTitle());
         //将文件信息插入数据库
         fileDetailMapper.insertFileDetail(fileDetail);
         //输出文件

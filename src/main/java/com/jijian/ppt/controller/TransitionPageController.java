@@ -34,6 +34,19 @@ public class TransitionPageController {
      */
     @PostMapping("/make")
     public UniversalResponseBody<FileDetail> makeTransitionPage(Integer fileId, String title) throws IOException {
-        return transitionPageService.makeTransitionPage(fileId, title);
+        return transitionPageService.makeTransitionPageV1(fileId, title);
+    }
+
+    /**
+     * 制作过渡页
+     * @param fileId
+     * @param pageId
+     * @param title
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/make/v2")
+    public UniversalResponseBody<FileDetail> makeTransitionPageV2(Integer fileId, Integer pageId,String title) throws IOException {
+        return transitionPageService.makeTransitionPage(fileId, pageId,title);
     }
 }

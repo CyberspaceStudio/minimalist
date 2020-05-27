@@ -3,6 +3,7 @@ package com.jijian.ppt.controller;
 import com.jijian.ppt.service.TablePageService;
 import com.jijian.ppt.utils.response.UniversalResponseBody;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +27,7 @@ public class TablePageController {
     /**
      * 制作图表页
      * @param fileId 文件id
+     * @param pageId 模板页Id
      * @param names 变量名称
      * @param values 变量值
      * @param chartTitle 表名
@@ -33,7 +35,8 @@ public class TablePageController {
      * @param paragraph 段落
      * @return
      */
-    public UniversalResponseBody makeTablePage(Integer fileId, String[] names, String[] values, String chartTitle,String title,String paragraph) throws IOException {
-        return tablePageService.makeTablePage(fileId, names, values, chartTitle,title,paragraph);
+    @PostMapping("/make")
+    public UniversalResponseBody makeTablePage(Integer fileId, Integer pageId,String[] names, String[] values, String chartTitle,String title,String paragraph) throws IOException {
+        return tablePageService.makeTablePage(fileId,pageId, names, values, chartTitle,title,paragraph);
     }
 }

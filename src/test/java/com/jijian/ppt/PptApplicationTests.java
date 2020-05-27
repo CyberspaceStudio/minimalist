@@ -1,6 +1,7 @@
 package com.jijian.ppt;
 
 import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.POJO.Page;
 import com.jijian.ppt.service.Impl.ImagePageServiceImpl;
 import com.jijian.ppt.service.Impl.TransitionPageServiceImpl;
 import com.jijian.ppt.utils.Enum.PageCategoryEnum;
@@ -13,6 +14,7 @@ import com.power.common.util.DateTimeUtil;
 import com.power.doc.builder.HtmlApiDocBuilder;
 import com.power.doc.constants.DocGlobalConstants;
 import com.power.doc.model.ApiConfig;
+import com.power.doc.model.ApiDataDictionary;
 import com.power.doc.model.ApiErrorCodeDictionary;
 import com.power.doc.model.ApiReqHeader;
 import lombok.extern.slf4j.Slf4j;
@@ -70,11 +72,11 @@ class PptApplicationTests {
                         .setCodeField("code") //错误码值字段名
                         .setDescField("msg")//错误码描述
         );
-        /*config.setDataDictionaries(
-                ApiDataDictionary.dict().setTitle("文件类别Id").setEnumClass(FileCategoryEnum.class)
-                        .setCodeField("fileCategoryId") //字典码值字段名
-                        .setDescField("fileCategoryDetail")
-        );*/
+        config.setDataDictionaries(
+                ApiDataDictionary.dict().setTitle("页面类型Id").setEnumClass(PageCategoryEnum.class)
+                        .setCodeField("pageCategoryId") //字典码值字段名
+                        .setDescField("pageCategoryDetail")
+        );
 
         long start = System.currentTimeMillis();
         //生成HTML5文件
@@ -87,9 +89,73 @@ class PptApplicationTests {
 
     @Test
     public void makeCoverPage() throws Exception {
-       imagePageService.makeImagePage(115, new String[]{"https://i.loli.net/2020/05/04/ZR6UcgHrYJ4IP2x.jpg"},"biaoti","duanluo");
+
+        //获取模板ppt文件的路径
+        String templateFilePath = "C:\\Users\\24605\\Desktop\\2.05.pptx";
+        String[] titles = {"a", "b","c","d","e"};
+        String[] subTitles = {"1"};
+        String[] paragraphs = {"A", "B", "C","D","E"};
+        //读取模板文件
+        XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
+
+        //获取模板的正文页
+        XSLFSlide slide = ppt.getSlides().get(3);
+        //读取用户文件
+        XMLSlideShow userFile = new XMLSlideShow(new FileInputStream(templateFilePath));
+        //读取模板文件的排版
+        XSLFSlideLayout layout = slide.getSlideLayout();
+        //将排版应用到用户文件
+        XSLFSlide newSlide = userFile.createSlide(layout);
+
+        List<XSLFShape> xslfTextShapeList = slide.getShapes();
+        int i = 0,j = 0,k = 0;
+        for ( XSLFShape shape : slide.getShapes())
+        {
+            if ( shape instanceof XSLFTextShape)
+            {
+                XSLFTextShape txtshape = (XSLFTextShape)shape ;
+                List<TextParagraph> list = ((TextShape) shape).getTextParagraphs();
+                for (TextParagraph textParagraph:
+                        list) {
+                    List<TextRun> textRuns = textParagraph.getTextRuns();
+                    for (TextRun textRun:
+                            textRuns) {
+                        String text = textRun.getRawText();
+                        if (text.equals("Title")){
+                            if (i < titles.length){
+                                textRun.setText(titles[i]);
+                                i++;
+                            }else {
+                                textRun.setText("");
+                            }
+                        }
+                        if (text.equals("subTitle")){
+                            if (j < subTitles.length){
+                                textRun.setText(subTitles[j]);
+                                j++;
+                            }else {
+                                textRun.setText("");
+                            }
+                        }
+                        if (text.equals("Paragraph")){
+                            if (k < paragraphs.length){
+                                textRun.setText(paragraphs[j]);
+                                k++;
+                            }else {
+                                textRun.setText("");
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        //导入上下文
+        newSlide.importContent(slide);
+        //输出文件
+        FileOutputStream out = new FileOutputStream(templateFilePath);
+        userFile.write(out);
+        out.close();
+        userFile.close();
     }
-
-
-
 }
