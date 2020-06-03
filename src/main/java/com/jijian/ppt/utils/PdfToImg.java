@@ -44,7 +44,6 @@ public class PdfToImg {
         for (int i = 0; i < len; i++) {
             BufferedImage image = pdfRenderer.renderImageWithDPI(i, DEFAULT_DPI, ImageType.RGB);
             imageHeightTotal += image.getHeight();
-
             if (i == 0) {
                 width = image.getWidth();
             }
@@ -83,7 +82,7 @@ public class PdfToImg {
 
         List<String> imgUrls = new LinkedList<>();
 
-        String url = "https://minimalist.net.cn";
+        String url ="https://minimalist.net.cn";
         //pdf文件所在的文件夹
         String dir = pdfPath.substring(0, pdfPath.lastIndexOf("/"));
         log.info(dir);
@@ -120,10 +119,14 @@ public class PdfToImg {
             String imgUrl = url + filePath;
 
             log.info("imgUrl"+imgUrl);
-
+            //如果图片存在,则删除图片
+            File file = new File(filePath);
+            if (file.exists()) {
+                file.delete();
+            }
             imgUrls.add(imgUrl);
             // 写图片
-            ImageIO.write(imageResult, DEFAULT_IMAGE_FORMAT.replace(".", ""), new File(filePath));
+            ImageIO.write(imageResult, DEFAULT_IMAGE_FORMAT.replace(".", ""), file);
         }
         pdDocument.close();
         return imgUrls;
