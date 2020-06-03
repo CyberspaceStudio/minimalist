@@ -16,7 +16,6 @@ public enum ResponseResultEnum {
     PARAM_IS_BLANK(1003,"参数为空"),
     PARAM_TYPE_BIND_ERROR(1004,"参数类型错误"),
     CODE_IS_INVALID(1005,"code无效"),
-    TAG_IS_EMPTY(1006,"没有与此标签相关的模板"),
     /**
      * 用户错误 2000-2999
      */

@@ -28,5 +28,15 @@ public interface CoverPageService {
      * @param templateId
      * @return
      */
-    UniversalResponseBody<FileDetail> makeCoverPage(Integer userId, CoverPage coverPage, Integer templateId) throws IOException;
+    UniversalResponseBody<FileDetail> makeCoverPageV1(Integer userId, CoverPage coverPage, Integer templateId) throws IOException;
+
+    /**
+     * 制作封面页
+     * @param userId
+     * @param coverPage
+     * @param templateId
+     * @param pageId
+     * @return
+     */
+    UniversalResponseBody<FileDetail> makeCoverPage(Integer userId,Integer pageId, CoverPage coverPage, Integer templateId) throws IOException;
 }

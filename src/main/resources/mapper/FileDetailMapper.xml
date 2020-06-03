@@ -7,14 +7,15 @@
         <result column="user_id" property="userId" jdbcType="INTEGER"/>
         <result column="file_path" property="filePath" jdbcType="VARCHAR"/>
         <result column="template_id" property="templateId" jdbcType="VARCHAR"/>
-        <result column="page_counts" property="pageCounts" javaType="INTEGER"/>
+        <result column="page_counts" property="pageCounts" jdbcType="INTEGER"/>
+        <result column="file_name" property="fileName"  jdbcType="VARCHAR"/>
     </resultMap>
 
 
     <insert id="insertFileDetail"  useGeneratedKeys="true" keyProperty="fileId">
-        INSERT INTO filedetail(user_id,file_path,template_id)
+        INSERT INTO filedetail(user_id,file_path,template_id,file_name)
         VALUES
-        (#{userId,jdbcType=INTEGER},#{filePath,jdbcType=VARCHAR},#{templateId,jdbcType=VARCHAR})
+        (#{userId,jdbcType=INTEGER},#{filePath,jdbcType=VARCHAR},#{templateId,jdbcType=VARCHAR},#{fileName,jdbcType=VARCHAR})
     </insert>
 
     <update id="updatePageCount">
@@ -31,7 +32,7 @@
     </select>
 
     <select id="getDetailByFileId" resultMap="FileDetail">
-        SELECT file_id,file_path,user_id,template_id,page_counts
+        SELECT file_id,file_path,user_id,template_id,page_counts,file_name
         FROM filedetail
         where file_Id = #{fileId,jdbcType=INTEGER}
     </select>

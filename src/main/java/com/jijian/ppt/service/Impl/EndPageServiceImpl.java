@@ -1,8 +1,10 @@
 package com.jijian.ppt.service.Impl;
 
 import com.jijian.ppt.POJO.FileDetail;
+import com.jijian.ppt.POJO.Page;
 import com.jijian.ppt.mapper.FileDetailMapper;
 import com.jijian.ppt.mapper.TemplateFileDetailMapper;
+import com.jijian.ppt.mapper.TemplatePageDetailMapper;
 import com.jijian.ppt.service.EndPageService;
 import com.jijian.ppt.utils.Enum.PageCategoryEnum;
 import com.jijian.ppt.utils.Enum.ResponseResultEnum;
@@ -33,21 +35,26 @@ public class EndPageServiceImpl implements EndPageService {
     private FileDetailMapper fileDetailMapper;
     @Resource
     private TemplateFileDetailMapper templateFileDetailMapper;
+    @Resource
+    private TemplatePageDetailMapper templatePageDetailMapper;
 
     @Override
-    public UniversalResponseBody<FileDetail> makeEndPage(Integer fileId, String title) throws IOException {
+    @Deprecated
+    public UniversalResponseBody<FileDetail> makeEndPageV1(Integer fileId, String title) throws IOException {
+       return makeEndPage(fileId, 7,title);
+    }
+
+    @Override
+    public UniversalResponseBody<FileDetail> makeEndPage(Integer fileId, Integer pageId,String title) throws IOException {
+        Page page = templatePageDetailMapper.getPageByPageId(pageId);
         //读取文件详细信息
         FileDetail fileDetail = fileDetailMapper.getDetailByFileId(fileId);
-
         //获取模板ppt文件的路径
         String templateFilePath =templateFileDetailMapper.GetTemplateFilePath(fileDetail.getTemplateId());
-
         //读取模板文件
         XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(templateFilePath));
-
         //获取模板的结束页
-        XSLFSlide slide = ppt.getSlides().get(PageCategoryEnum.END_PAGE.getPageCategoryId());
-
+        XSLFSlide slide = ppt.getSlides().get(page.getPagePosition());
         //读取用户文件
         XMLSlideShow userFile = new XMLSlideShow(new FileInputStream(fileDetail.getFilePath()));
 

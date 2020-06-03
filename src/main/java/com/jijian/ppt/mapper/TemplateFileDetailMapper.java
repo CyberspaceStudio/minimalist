@@ -33,4 +33,11 @@ public interface TemplateFileDetailMapper {
      * @return
      */
     List<TemplateFileDetail> GetTemplateDetailByTag(String templateTag);
+
+    /**
+     * 根据模板Id查找模板
+     * @param templateId
+     * @return
+     */
+    TemplateFileDetail getTemplateFileDetailByTemplateId(Integer templateId);
 }

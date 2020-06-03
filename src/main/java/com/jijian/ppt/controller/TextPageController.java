@@ -36,4 +36,19 @@ public class TextPageController {
     public UniversalResponseBody<FileDetail> makeTextPage(Integer fileId,String title,String paragraph) throws IOException {
         return textPageService.makeTextPage(fileId, title, paragraph);
     }
+
+    /**
+     * 制作正文页V2
+     * @param fileId 文件Id
+     * @param pageId 页面Id
+     * @param titles  标题数组
+     * @param subTitles  副标题数组
+     * @param paragraphs  段落数组
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/make/v2")
+    public UniversalResponseBody<FileDetail> makeTextPageV2(Integer fileId,Integer pageId,String[] titles,String[] subTitles,String[] paragraphs) throws IOException {
+        return textPageService.makeTextPageV2(fileId, pageId, titles, subTitles, paragraphs);
+    }
 }

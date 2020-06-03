@@ -21,5 +21,17 @@ public interface TextPageService {
      * @return
      * @throws IOException
      */
-    public UniversalResponseBody<FileDetail> makeTextPage(Integer fileId,String title,String paragraph) throws IOException;
+    UniversalResponseBody<FileDetail> makeTextPage(Integer fileId,String title,String paragraph) throws IOException;
+
+    /**
+     * 制作正文页第二版
+     * @param fileId
+     * @param pageId
+     * @param titles
+     * @param subTitles
+     * @param paragraphs
+     * @return
+     * @throws IOException
+     */
+    UniversalResponseBody<FileDetail> makeTextPageV2(Integer fileId,Integer pageId,String[] titles,String[] subTitles,String[] paragraphs) throws IOException;
 }

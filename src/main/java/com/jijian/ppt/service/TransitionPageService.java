@@ -19,5 +19,13 @@ public interface TransitionPageService {
      * @param title
      * @return
      */
-    UniversalResponseBody<FileDetail> makeTransitionPage(Integer fileId, String title) throws IOException;
+    UniversalResponseBody<FileDetail> makeTransitionPageV1(Integer fileId, String title) throws IOException;
+
+    /**
+     * 制作过渡页
+     * @param fileId
+     * @param title
+     * @return
+     */
+    UniversalResponseBody<FileDetail> makeTransitionPage(Integer fileId, Integer pageId,String title) throws IOException;
 }

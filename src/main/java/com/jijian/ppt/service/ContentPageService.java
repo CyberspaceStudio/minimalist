@@ -19,5 +19,13 @@ public interface ContentPageService {
      * @param titles
      * @return
      */
-    UniversalResponseBody<FileDetail> makeContentsPage(Integer fileId, String[] titles) throws IOException;
+    UniversalResponseBody<FileDetail> makeContentsPageV1(Integer fileId, String[] titles) throws IOException;
+
+    /**
+     * 目录页
+     * @param fileId
+     * @param titles
+     * @return
+     */
+    UniversalResponseBody<FileDetail> makeContentsPage(Integer fileId, Integer pageId, String[] titles) throws IOException;
 }

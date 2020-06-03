@@ -52,8 +52,15 @@ public class ImagePageServiceImpl implements ImagePageService {
         inStream.close();
         return outStream.toByteArray();
     }
+
     @Override
-    public UniversalResponseBody<FileDetail> makeImagePage(Integer fileId,String[] pictureUrls,String title,String paragraph) throws IOException{
+    @Deprecated
+    public UniversalResponseBody<FileDetail> makeImagePageV1(Integer fileId, String[] pictureUrls, String title, String paragraph) throws IOException {
+        return makeImagePage(fileId,5,pictureUrls,title,paragraph);
+    }
+
+    @Override
+    public UniversalResponseBody<FileDetail> makeImagePage(Integer fileId,Integer pageId,String[] pictureUrls,String title,String paragraph) throws IOException{
         //读取文件详细信息
         FileDetail fileDetail = fileDetailMapper.getDetailByFileId(fileId);
 
@@ -69,13 +76,14 @@ public class ImagePageServiceImpl implements ImagePageService {
         XMLSlideShow userFile = new XMLSlideShow(new FileInputStream(fileDetail.getFilePath()));
         //读取模板文件的排版
         XSLFSlideLayout layout = templateSlide.getSlideLayout();
+        
         //将排版应用到用户文件
         XSLFSlide slide = userFile.createSlide(layout);
         slide.importContent(templateSlide);
 
-
         //插入文本
         Integer imageNumber=pictureUrls.length;
+        log.info(String.valueOf(slide.getPlaceholders().length));
         XSLFTextShape text=slide.createTextBox();//插入文本框
         if(imageNumber.equals(2)){
             XSLFTextShape title1=slide.createTextBox();//设置标题

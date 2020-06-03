@@ -36,6 +36,19 @@ public class EndPageController {
      */
     @PostMapping("/make")
     public UniversalResponseBody<FileDetail> makeEndPage(Integer fileId,String title) throws IOException {
-        return endPageService.makeEndPage(fileId, title);
+        return endPageService.makeEndPageV1(fileId, title);
+    }
+
+    /**
+     * 制作结束页
+     * @param fileId
+     * @param pageId
+     * @param title
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/make/v2")
+    public UniversalResponseBody<FileDetail> makeEndPage(Integer fileId,Integer pageId,String title) throws IOException {
+        return endPageService.makeEndPage(fileId,pageId, title);
     }
 }

@@ -20,5 +20,14 @@ public interface EndPageService {
      * @param title
      * @return
      */
-    UniversalResponseBody<FileDetail> makeEndPage(Integer fileId,String title) throws IOException;
+    UniversalResponseBody<FileDetail> makeEndPageV1(Integer fileId,String title) throws IOException;
+
+    /**
+     * 制作结束页
+     * @param fileId
+     * @param pageId
+     * @param title
+     * @return
+     */
+    UniversalResponseBody<FileDetail> makeEndPage(Integer fileId,Integer pageId,String title) throws IOException;
 }

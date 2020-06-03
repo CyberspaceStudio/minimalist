@@ -36,6 +36,19 @@ public class CoverPageController {
      */
     @PostMapping("/make")
     public UniversalResponseBody<FileDetail> makeCoverPage(Integer userId, CoverPage coverPage, Integer templateId) throws IOException {
-        return coverPageService.makeCoverPage(userId, coverPage, templateId);
+        return coverPageService.makeCoverPageV1(userId, coverPage, templateId);
+    }
+
+    /**
+     * 制作封面页
+     * @param userId
+     * @param coverPage
+     * @param pageId
+     * @param templateId
+     * @return
+     */
+    @PostMapping("/make/v2")
+    public UniversalResponseBody<FileDetail> makeCoverPageV2(Integer userId,Integer pageId, CoverPage coverPage, Integer templateId) throws IOException {
+        return coverPageService.makeCoverPage(userId,pageId,coverPage, templateId);
     }
 }

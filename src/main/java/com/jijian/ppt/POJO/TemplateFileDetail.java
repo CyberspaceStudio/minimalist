@@ -13,7 +13,6 @@ public class TemplateFileDetail {
 
     /**
      * 模板文件id
-     * @ignore
      */
     private Integer templateId;
 
@@ -24,7 +23,6 @@ public class TemplateFileDetail {
 
     /**
      * 模板文件路径
-     * @ignore
      */
     private String filePath;
 

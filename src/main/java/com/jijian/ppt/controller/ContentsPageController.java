@@ -27,12 +27,24 @@ public class ContentsPageController {
 
     /**
      * 制作目录页
+     * @apiNote 此方法日后将被移除
      * @param fileId
      * @param titles
      * @return
      */
     @PostMapping("/make")
     public UniversalResponseBody<FileDetail> makeContentsPage(Integer fileId,String[] titles) throws IOException {
-        return contentPageService.makeContentsPage(fileId, titles);
+        return contentPageService.makeContentsPageV1(fileId,titles);
+    }
+    /**
+     * 制作目录页
+     * @param fileId
+     * @param pageId
+     * @param titles
+     * @return
+     */
+    @PostMapping("/make/v2")
+    public UniversalResponseBody<FileDetail> makeContentsPageV2(Integer fileId,Integer pageId,String[] titles) throws IOException {
+        return contentPageService.makeContentsPage(fileId,pageId ,titles);
     }
 }
