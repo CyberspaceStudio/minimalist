@@ -107,7 +107,7 @@
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
-            <version>2.0.19</version>
+            <version>2.0.24</version>
         </dependency>
 
        <!--一下依赖为解决Java9以后，不再包含JavaEE的接口而导致的问题-->
